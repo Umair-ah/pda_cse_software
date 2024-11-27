@@ -3,53 +3,66 @@
   <h1 class="text-3xl font-bold text-purple-600 mb-4">
     Batch <%= Batch.find(params[:id]).name %>
   </h1>
+  <% unless session[:guide_id] %>
 
-  <!-- Form Title -->
-  <h2 class="text-2xl font-semibold text-purple-500 mb-6">
-    Import Students using Excel with the following format. <%= image_tag("format_of_students_upload.png") %>
-  </h2>
+    <!-- Form Title -->
+    <h2 class="text-2xl font-semibold text-purple-500 mb-6">
+      Import Students using Excel with the following format. <%= image_tag("format_of_students_upload.png") %>
+    </h2>
 
-  <%= link_to "back", batches_path, class:"text-purple-600 mb-2" %>
+    <%= link_to "back", batches_path, class:"text-purple-600 mb-2" %>
 
-  <!-- Form Section -->
-  <div class="bg-purple-100 shadow-md rounded-lg p-6">
-    <%= form_with url: import_students_batches_path, method: :post, local: true, multipart: true, class: "space-y-6" do |form| %>
-      <!-- File Input -->
-      <div class="flex flex-col space-y-2">
-        <%= form.label :file, "Upload Excel File", class: "text-purple-600 font-medium" %>
-        <%= form.file_field :file, class: "block w-full border-2 border-purple-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" %>
-        <%= form.hidden_field :batch_id, value: params[:id] %>
-      </div>
+    <!-- Form Section -->
+    <div class="bg-purple-100 shadow-md rounded-lg p-6">
+      <%= form_with url: import_students_batches_path, method: :post, local: true, multipart: true, class: "space-y-6" do |form| %>
+        <!-- File Input -->
+        <div class="flex flex-col space-y-2">
+          <%= form.label :file, "Upload Excel File", class: "text-purple-600 font-medium" %>
+          <%= form.file_field :file, class: "block w-full border-2 border-purple-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" %>
+          <%= form.hidden_field :batch_id, value: params[:id] %>
+        </div>
 
-      <!-- Submit Button -->
-      <div>
-        <%= form.submit "Upload", class: "bg-purple-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-purple-500 focus:ring-4 focus:ring-purple-400" %>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- Student List Section -->
-  <div class="mt-10">
-    <h3 class="text-xl font-semibold text-purple-500 mb-4">Student List</h3>
-    <div class="bg-purple-100 shadow-md rounded-lg overflow-x-auto">
-      <table class="table-auto w-full border-collapse border border-purple-300">
-        <thead class="bg-purple-600 text-white">
-          <tr>
-            <th class="border border-purple-300 px-4 py-2 text-left">USN</th>
-            <th class="border border-purple-300 px-4 py-2 text-left">Name</th>
-            <th class="border border-purple-300 px-4 py-2 text-left">C No</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-purple-200">
-          <% @students.each do |student| %>
-            <tr>
-              <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= student.usn %></td>
-              <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.name %></td>
-              <td class="border border-purple-300 px-4 py-2 text-purple-500 font-bold"><%= student.c_no %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+        <!-- Submit Button -->
+        <div>
+          <%= form.submit "Upload", class: "bg-purple-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-purple-500 focus:ring-4 focus:ring-purple-400" %>
+        </div>
+      <% end %>
     </div>
-  </div>
+
+    <!-- Student List Section -->
+    <div class="mt-10">
+      <h3 class="text-xl font-semibold text-purple-500 mb-4">Student List</h3>
+      <div class="bg-purple-100 shadow-md rounded-lg overflow-x-auto">
+        <table class="table-auto w-full border-collapse border border-purple-300">
+          <thead class="bg-purple-600 text-white">
+            <tr>
+              <th class="border border-purple-300 px-4 py-2 text-left">USN</th>
+              <th class="border border-purple-300 px-4 py-2 text-left">Name</th>
+              <th class="border border-purple-300 px-4 py-2 text-left">C No</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-purple-200">
+            <% @students.each do |student| %>
+              <tr>
+                <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= student.usn %></td>
+                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.name %></td>
+                <td class="border border-purple-300 px-4 py-2 text-purple-500 font-bold"><%= student.c_no %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <% else %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 place-items-center">
+    <!-- Card 1 -->
+      <% @programs.each do |prog| %>
+        <div class="w-full p-6 bg-white shadow-lg rounded-lg border-t-4 border-purple-500">
+          <div class="mb-4 p-4 border-b-2 border-gray-200 last:border-none">
+            <h3 class="text-xl font-semibold text-gray-800 truncate hover:text-purple-500"><%= link_to prog.name, program_path(prog, name: prog.name) %></h3>
+          </div>
+        </div>
+      <% end %>
+  <% end %>
 </div>

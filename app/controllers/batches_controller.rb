@@ -64,7 +64,11 @@ class BatchesController < ApplicationController
   
 
   def show
-    @students = Student.all.order(:usn)
+    unless session[:guide_id]
+      @students = Student.all.order(:usn)
+    else
+      @programs = Program.limit(2)
+    end
   end
 
 

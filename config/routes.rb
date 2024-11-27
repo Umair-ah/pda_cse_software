@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root "batches#index"
 
-  #resources :students
+  resources :guides, only: %i[index create destroy]
+  resources :programs, only: %i[show]
+
  
 
   resources :batches, only: %i[create index show] do
