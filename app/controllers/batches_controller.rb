@@ -12,42 +12,55 @@ class BatchesController < ApplicationController
     xlsx = Roo::Spreadsheet.open(file_path)
     sheet = xlsx.sheet(0)
   
-    sheet.each_with_index do |row, index|
-      next if index < 9
+    # Initialize variables to store the current guide and project values
+    current_guide_name = nil
+    current_project_title = nil
   
+    sheet.each_with_index do |row, index|
+      next if index < 9  # Skip the header or any initial rows if needed
+  
+      # Read data from the row
       name = row[1]&.to_s&.strip&.upcase
       usn = row[2]&.to_s&.strip&.upcase
       project_title = row[3]&.to_s&.strip&.upcase
       guide_name = row[4]&.to_s&.strip&.upcase
   
-      # Skip rows with invalid guide_name
-      if guide_name.blank?
-        puts "Skipping row ##{index + 1}: Guide name is blank or invalid"
-        next
-      end
+      # Skip rows with invalid or missing guide_name
+      # if guide_name.blank?
+      #   puts "Skipping row ##{index + 1}: Guide name is blank or invalid"
+      #   next
+      # end
   
-      guide = Guide.find_or_create_by!(name: guide_name) do |guide|
+      # Update current guide name if it has changed
+      current_guide_name = guide_name.present? ? guide_name : current_guide_name
+      current_project_title = project_title.present? ? project_title : current_project_title
+  
+      # Ensure guide exists or is created
+      guide = Guide.find_or_create_by!(name: current_guide_name) do |guide|
         guide.password = "pda123"
       end
   
+      # Find the program based on the provided category
       program = Program.find_by(name: params[:category])
   
+      # Ensure student exists or is created
       student = Student.find_or_create_by!(usn: usn) do |student|
         student.name = name
         student.guide = guide
         student.batch_id = params[:batch_id]
       end
   
-      # Update guide if it's not already set
+      # Update student guide if it's blank (although the creation ensures it's set)
       student.update!(guide: guide) if student.guide.blank?
   
-      # Create or update project
-      Project.find_or_create_by!(usn: student.usn, title: project_title) do |project|
+      # Ensure project exists or is created for the student
+      Project.find_or_create_by!(usn: student.usn, title: current_project_title) do |project|
         project.student = student
         project.program = program
       end
     end
   end
+  
   
 
   def show
