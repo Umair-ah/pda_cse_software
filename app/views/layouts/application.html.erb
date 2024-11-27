@@ -15,6 +15,7 @@
     <% if session[:guide_id] %>
       <%= button_to "Log Out", guide_path(Guide.find(session[:guide_id])), method: :delete, class:"p-3 text-white bg-red-500" %> 
       <%= Guide.find(session[:guide_id]).name %>
+      <%= session[:user_category] %>
     <% else %>
       <%= link_to "Guides", guides_path, class:"p-3 text-white bg-purple-500" %>
     <% end %>

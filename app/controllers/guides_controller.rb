@@ -13,14 +13,20 @@ class GuidesController < ApplicationController
 
 
   def create
+    if params[:category] == ""
+      flash[:alert] = "Select login As"
+      render :show
+      return
+    end
     guide = Guide.find_by!(name: params[:guide_name])
     puts "#{guide.name}"
     if guide&.authenticate(params[:password])
       session[:guide_id] = guide.id
+      session[:user_category] = params[:category]
       redirect_to root_path, notice: "Logged in successfully."
     else
       flash[:alert] = "Invalid password."
-      render :guide_login
+      render :show
     end
   end
 

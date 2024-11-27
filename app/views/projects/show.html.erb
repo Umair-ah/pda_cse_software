@@ -6,11 +6,57 @@
     <% @project.students.each do |student| %>
       <div class="w-full p-6 bg-white shadow-lg rounded-lg border-t-4 border-red-500">
         <div class="mb-4 p-4 border-b-2 border-gray-200 last:border-none">
+          <!-- Student Info -->
           <h3 class="text-xl font-semibold text-gray-800 truncate hover:text-red-500"><%= student.usn %></h3>
           <h3 class="text-xl font-semibold text-gray-800 truncate hover:text-red-500"><%= student.name %></h3>
 
+          <!-- Presentation Table -->
+          <div class="overflow-x-auto mt-4">
+            <table class="min-w-full border border-gray-300">
+              <thead class="bg-gray-200">
+                <tr>
+                  <th class="px-4 py-2 text-left text-gray-700 font-semibold border-b">.</th>
+                  <th class="px-4 py-2 text-left text-gray-700 font-semibold border-b">Guide</th>
+                  <th class="px-4 py-2 text-left text-gray-700 font-semibold border-b">R1</th>
+                  <th class="px-4 py-2 text-left text-gray-700 font-semibold border-b">R2</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <% student.presentations.each do |prese| %>
+                  <tr class="hover:bg-gray-100">
+                    <td class="px-4 py-2 border-b"><%= prese.name %></td>
+                    <% if session[:user_category] == "Guide" %>
+                    <td class="px-4 py-2 border-b">
+                      <%= link_to "Guide", presentation_path(prese), class: "text-white bg-red-500 px-3 py-1 rounded-md hover:bg-red-400" %>
+                    </td>
+                    <% else %>
+                    <td> x </td>
+                    <% end %>
+
+                    <% if session[:user_category] == "Reviewer 1" %>
+                    <td class="px-4 py-2 border-b">
+                      <%= link_to "R1", presentation_path(prese), class: "text-white bg-red-500 px-3 py-1 rounded-md hover:bg-red-400" %>
+                    </td>
+                    <% else %>
+                    <td> x </td>
+                    <% end %>
+
+                    <% if session[:user_category] == "Reviewer 2" %>
+                    <td class="px-4 py-2 border-b">
+                      <%= link_to "R2", presentation_path(prese), class: "text-white bg-red-500 px-3 py-1 rounded-md hover:bg-red-400" %>
+                    </td>
+                    <% else %>
+                    <td> x </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     <% end %>
+
   </div>
 </div>

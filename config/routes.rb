@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :guides, only: %i[index create destroy show]
   resources :programs, only: %i[show]
   resources :projects, only: %i[show]
+  resources :presentation, only: %i[show]
+
 
 
  

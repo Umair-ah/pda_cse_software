@@ -59,6 +59,10 @@ class BatchesController < ApplicationController
       end
 
       StudentsProject.find_or_create_by!(project: project, student: student)
+
+      2.times do |i|
+        Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}")
+      end
     end
   end
   
