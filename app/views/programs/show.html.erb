@@ -1,5 +1,5 @@
 <div class="container mx-auto px-6 py-10 md:p-32">
- <%= link_to "batches", batches_path, class:"text-gray-600 hover:text-gray-700" %> / <%= link_to "program", batch_path(params[:batch_id]), class:"text-gray-600 hover:text-gray-700" %> / project list
+ <%= link_to "batches", batches_path, class:"text-gray-600 hover:text-gray-700" %> / <%= link_to "#{Program.find(params[:id]).name}", batch_path(params[:batch_id]), class:"text-gray-600 hover:text-gray-700" %> / project list - <%= Batch.find(params[:batch_id]).name %>
   <div class="mt-10">
     <h3 class="text-xl font-semibold text-purple-500 mb-4">Project List for <b><%= Batch.find(params[:batch_id]).name %></b></h3>
     <div class="bg-purple-100 shadow-md rounded-lg overflow-x-auto">
