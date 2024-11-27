@@ -1,0 +1,31 @@
+<div class="container mx-auto px-6 py-10">
+  <!-- Batch Title -->
+  <h1 class="text-3xl font-bold text-purple-600 mb-4">
+   Upload Guides List 
+  </h1>
+
+  <!-- Form Title -->
+  <%# <h2 class="text-2xl font-semibold text-purple-500 mb-6">
+    Import Students using Excel with the following format. <%= image_tag("format_of_students_upload.png") %>
+  </h2> %>
+
+  <%= link_to "back", batches_path, class:"text-purple-600 mb-2" %>
+
+  <!-- Form Section -->
+  <div class="bg-purple-100 shadow-md rounded-lg p-6">
+    <%= form_with url: import_guides_batches_path, method: :post, local: true, multipart: true, class: "space-y-6" do |form| %>
+      <!-- File Input -->
+      <div class="flex flex-col space-y-2">
+        <%= form.label :file, "Upload Excel File", class: "text-purple-600 font-medium" %>
+        <%= form.file_field :file, class: "block w-full border-2 border-purple-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" %>
+        <%= form.hidden_field :batch_id, value: params[:batch_id] %>
+        <%= form.select :category, options_for_select([["Mini", "Mini"], ["Major", "Major"]]), { prompt: "Select Project Type" }, class: "form-select w-full border border-gray-300 rounded-lg p-2 my-5 shadow-lg" %>
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <%= form.submit "Upload", class: "bg-purple-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-purple-500 focus:ring-4 focus:ring-purple-400" %>
+      </div>
+    <% end %>
+  </div>
+</div>

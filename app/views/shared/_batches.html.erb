@@ -4,6 +4,9 @@
       <h3 class="text-lg font-semibold mb-2">
         <div class="flex items-center justify-between" id="edit_batch<%= b.id %>">
           <%= link_to b.name, batch_path(b), class: "hover:underline text-purple-600" %>
+          <div class="grid place-items-end">
+            <%= link_to "Upload Guides", batch_show_two_path(b), class: "bg-emerald-600 text-white font-medium py-1 px-2 rounded-lg shadow-md hover:bg-emerald-500 focus:ring-4 focus:ring-emerald-400 transition:ease-in duration-300" %>
+          </div>
 
           <%= link_to edit_batches_path(batch_id: b.id), data:{ turbo_method: :post } do %>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-600">

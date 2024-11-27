@@ -4,6 +4,7 @@ class CreateStudents < ActiveRecord::Migration[7.0]
       t.string :usn
       t.string :name
       t.string :c_no
+      t.belongs_to :guide, foreign_key: true
 
       t.timestamps
     end

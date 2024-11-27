@@ -9,7 +9,9 @@ Rails.application.routes.draw do
       post :import_students
       post :edit
       post :update
+      post :import_guides
     end
+    get :show_two
   end
   
 end

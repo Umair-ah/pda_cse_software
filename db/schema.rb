@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_26_132509) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_27_112417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,17 +48,46 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_132509) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "guides", force: :cascade do |t|
+    t.string "name"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "title"
+    t.string "usn"
+    t.bigint "student_id", null: false
+    t.bigint "program_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_projects_on_program_id"
+    t.index ["student_id"], name: "index_projects_on_student_id"
+  end
+
   create_table "students", force: :cascade do |t|
     t.string "usn"
     t.string "name"
     t.string "c_no"
+    t.bigint "guide_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "batch_id", null: false
     t.index ["batch_id"], name: "index_students_on_batch_id"
+    t.index ["guide_id"], name: "index_students_on_guide_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "projects", "programs"
+  add_foreign_key "projects", "students"
   add_foreign_key "students", "batches"
+  add_foreign_key "students", "guides"
 end

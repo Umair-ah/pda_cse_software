@@ -75,3 +75,5 @@ group :test do
 end
 
 gem "roo"
+gem 'hirb'
+gem 'bcrypt'

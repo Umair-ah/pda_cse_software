@@ -1,8 +1,57 @@
 class BatchesController < ApplicationController
 
+  def show_two; end
+
+  def import_guides
+    if params[:file].nil?
+      redirect_to show_two_batches_path, alert: "No file uploaded. Please upload a file and try again."
+      return
+    end
+  
+    file_path = params[:file].path
+    xlsx = Roo::Spreadsheet.open(file_path)
+    sheet = xlsx.sheet(0)
+  
+    sheet.each_with_index do |row, index|
+      next if index < 9
+  
+      name = row[1]&.to_s&.strip&.upcase
+      usn = row[2]&.to_s&.strip&.upcase
+      project_title = row[3]&.to_s&.strip&.upcase
+      guide_name = row[4]&.to_s&.strip&.upcase
+  
+      # Skip rows with invalid guide_name
+      if guide_name.blank?
+        puts "Skipping row ##{index + 1}: Guide name is blank or invalid"
+        next
+      end
+  
+      guide = Guide.find_or_create_by!(name: guide_name) do |guide|
+        guide.password = "pda123"
+      end
+  
+      program = Program.find_by(name: params[:category])
+  
+      student = Student.find_or_create_by!(usn: usn) do |student|
+        student.name = name
+        student.guide = guide
+        student.batch_id = params[:batch_id]
+      end
+  
+      # Update guide if it's not already set
+      student.update!(guide: guide) if student.guide.blank?
+  
+      # Create or update project
+      Project.find_or_create_by!(usn: student.usn, title: project_title) do |project|
+        project.student = student
+        project.program = program
+      end
+    end
+  end
+  
+
   def show
     @students = Student.all.order(:usn)
-  
   end
 
 
@@ -23,9 +72,9 @@ class BatchesController < ApplicationController
       next if index < 6
   
       # Extract data
-      usn = row[2].to_s.strip.upcase # Column 'D'
-      name = row[3].to_s.strip.upcase # Column 'E'
-      c_no = row[4].to_s.strip.upcase # Column 'F'
+      usn = row[2]&.to_s&.strip&.upcase # Column 'D'
+      name = row[3]&.to_s&.strip&.upcase # Column 'E'
+      c_no = row[4]&.to_s&.strip&.upcase # Column 'F'
   
       # Create or update student record
       Student.find_or_create_by!(usn: usn) do |student|
