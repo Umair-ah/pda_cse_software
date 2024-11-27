@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_27_112417) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_27_151640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,13 +63,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_27_112417) do
 
   create_table "projects", force: :cascade do |t|
     t.string "title"
-    t.string "usn"
-    t.bigint "student_id", null: false
     t.bigint "program_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_projects_on_program_id"
-    t.index ["student_id"], name: "index_projects_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -84,10 +81,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_27_112417) do
     t.index ["guide_id"], name: "index_students_on_guide_id"
   end
 
+  create_table "students_projects", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_students_projects_on_project_id"
+    t.index ["student_id"], name: "index_students_projects_on_student_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "projects", "programs"
-  add_foreign_key "projects", "students"
   add_foreign_key "students", "batches"
   add_foreign_key "students", "guides"
+  add_foreign_key "students_projects", "projects"
+  add_foreign_key "students_projects", "students"
 end

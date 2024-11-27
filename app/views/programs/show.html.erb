@@ -1,4 +1,24 @@
-<%= @program.projects.each do |project| %>
-  <%= project.title %> <br/>
-
-<% end %>
+<div class="container mx-auto px-6 py-10 md:p-32">
+ <%= link_to "batches", batches_path, class:"text-gray-600 hover:text-gray-700" %> / <%= link_to "program", batch_path(params[:batch_id]), class:"text-gray-600 hover:text-gray-700" %> / project list
+  <div class="mt-10">
+    <h3 class="text-xl font-semibold text-purple-500 mb-4">Project List for <b><%= Batch.find(params[:batch_id]).name %></b></h3>
+    <div class="bg-purple-100 shadow-md rounded-lg overflow-x-auto">
+      <table class="table-auto w-full border-collapse border border-purple-300">
+        <thead class="bg-purple-600 text-white">
+          <tr>
+            <th class="border border-purple-300 px-4 py-2 text-left">Sl. No</th>
+            <th class="border border-purple-300 px-4 py-2 text-left">Title</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-purple-200">
+          <% @projects.each_with_index do |project, i| %>
+            <tr>
+              <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= i + 1 %></td>
+              <td class="border border-purple-300 px-4 py-2 text-gray-600 font-medium hover:text-red-500"><%= link_to project.title, project_path(project, batch_id: params[:batch_id]) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

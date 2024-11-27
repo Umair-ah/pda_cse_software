@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   root "batches#index"
 
-  resources :guides, only: %i[index create destroy]
+  resources :guides, only: %i[index create destroy show]
   resources :programs, only: %i[show]
+  resources :projects, only: %i[show]
+
 
  
 

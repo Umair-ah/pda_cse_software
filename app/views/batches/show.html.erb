@@ -1,4 +1,4 @@
-<div class="container mx-auto px-6 py-10">
+<div class="container mx-auto px-6 py-10 md:p-32">
   <!-- Batch Title -->
   <h1 class="text-3xl font-bold text-purple-600 mb-4">
     Batch <%= Batch.find(params[:id]).name %>
@@ -55,12 +55,13 @@
     </div>
 
   <% else %>
+    <%= link_to "batches", batches_path, class:"text-gray-600 hover:text-gray-700" %> / program
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 place-items-center">
     <!-- Card 1 -->
       <% @programs.each do |prog| %>
         <div class="w-full p-6 bg-white shadow-lg rounded-lg border-t-4 border-purple-500">
           <div class="mb-4 p-4 border-b-2 border-gray-200 last:border-none">
-            <h3 class="text-xl font-semibold text-gray-800 truncate hover:text-purple-500"><%= link_to prog.name, program_path(prog, name: prog.name) %></h3>
+            <h3 class="text-xl font-semibold text-gray-800 truncate hover:text-purple-500"><%= link_to prog.name, program_path(prog, name: prog.name, batch_id: Batch.find(params[:id])) %></h3>
           </div>
         </div>
       <% end %>

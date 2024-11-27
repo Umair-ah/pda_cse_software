@@ -54,10 +54,11 @@ class BatchesController < ApplicationController
       student.update!(guide: guide) if student.guide.blank?
   
       # Ensure project exists or is created for the student
-      Project.find_or_create_by!(usn: student.usn, title: current_project_title) do |project|
-        project.student = student
+      project = Project.find_or_create_by!(title: current_project_title) do |project|
         project.program = program
       end
+
+      StudentsProject.find_or_create_by!(project: project, student: student)
     end
   end
   
