@@ -14,7 +14,7 @@
           <% @projects.each_with_index do |project, i| %>
             <tr>
               <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= i + 1 %></td>
-              <td class="border border-purple-300 px-4 py-2 text-gray-600 font-medium hover:text-red-500"><%= link_to project.title, project_path(project, batch_id: params[:batch_id]) %></td>
+              <td class="border border-purple-300 px-4 py-2 text-gray-600 font-medium hover:text-red-500"><%= link_to project.title, project_path(project, batch_id: params[:batch_id], program_id: params[:id]) %></td>
             </tr>
           <% end %>
         </tbody>
