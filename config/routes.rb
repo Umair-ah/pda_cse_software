@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   resources :programs, only: %i[show]
   resources :projects, only: %i[show]
   resources :presentation, only: %i[show]
-  resources :points, only: %i[show update]
+  resources :points, only: %i[show update] 
+   
   
 
 

@@ -64,7 +64,7 @@ class BatchesController < ApplicationController
         presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}")
 
         3.times do |j|
-          Point.find_or_create_by!(presentation: presentation, name:"Change Name #{j + 1}")
+          Point.find_or_create_by!(presentation: presentation, guide_name:"Change Name #{j + 1}")
         end
       end
     end

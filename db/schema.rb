@@ -56,12 +56,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_040939) do
   end
 
   create_table "points", force: :cascade do |t|
-    t.string "name"
+    t.string "guide_name"
+    t.string "student_name"
+    t.string "student_usn"
+    t.string "project_title"
     t.decimal "mark1", precision: 3, scale: 1, default: "0.0"
     t.decimal "mark2", precision: 3, scale: 1, default: "0.0"
     t.decimal "mark3", precision: 3, scale: 1, default: "0.0"
     t.decimal "mark4", precision: 3, scale: 1, default: "0.0"
     t.decimal "mark5", precision: 3, scale: 1, default: "0.0"
+    t.decimal "total", precision: 3, scale: 1, default: "0.0"
+    t.boolean "locked", default: false
     t.bigint "presentation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -30,6 +30,8 @@
                   <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">Guide</th>
                   <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">R1</th>
                   <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">R2</th>
+                  <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">Total</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -38,27 +40,62 @@
                       <td class="px-4 py-2 border-b"><%= prese.name %></td>
                       <% if session[:user_category] == "Guide" %>
                         <td class="px-4 py-2 border-b">
-                          <%= link_to "Guide", point_path(prese.points.first, batch_id: params[:batch_id], program_id: params[:program_id], project_id: params[:id], student_name: prese.student.name, student_usn: prese.student.usn), class: "text-white bg-purple-500 px-3 py-1 rounded-md hover:bg-purple-400" %>
+                          <div class="flex items-center justify-start gap-2">
+                            <%= link_to "Guide", point_path(prese.points.first, batch_id: params[:batch_id], program_id: params[:program_id], project_id: params[:id], student_name: prese.student.name, student_usn: prese.student.usn), class: "text-white bg-purple-500 px-3 py-1 rounded-md hover:bg-purple-400" %>
+                            <% if prese.points.first.total > 0 %>
+                              <p class="text-red-500 font-bold"><%= prese.points.first.total %></p>
+                            <% end %>
+                          </div>
                         </td>
                       <% else %>
-                        <td class="px-4 py-2 border-b text-gray-500">x</td>
+                        <% if prese.points.first.total > 0 %>
+                          <td class="px-4 py-2 border-b text-red-500"><%= prese.points.first.total %></td>
+                        <% else %>
+                          <td class="px-4 py-2 border-b text-gray-500">x</td>
+                        <% end %>
                       <% end %>
 
                       <% if session[:user_category] == "Reviewer 1" %>
                         <td class="px-4 py-2 border-b">
+                        <div class="flex items-center justify-start gap-2">
                           <%= link_to "R1", point_path(prese.points.second, batch_id: params[:batch_id], program_id: params[:program_id], project_id: params[:id], student_name: prese.student.name, student_usn: prese.student.usn), class: "text-white bg-purple-500 px-3 py-1 rounded-md hover:bg-purple-400" %>
+                          <% if prese.points.second.total > 0 %>
+                            <p class="text-red-500 font-bold"><%= prese.points.second.total %></p>
+                          <% end %>
+                        </div>
                         </td>
                       <% else %>
-                        <td class="px-4 py-2 border-b text-gray-500">x</td>
+                        <% if prese.points.second.total > 0 %>
+                          <td class="px-4 py-2 border-b text-red-500"><%= prese.points.second.total %></td>
+                        <% else %>
+                          <td class="px-4 py-2 border-b text-gray-500">x</td>
+                        <% end %>
                       <% end %>
 
                       <% if session[:user_category] == "Reviewer 2" %>
                         <td class="px-4 py-2 border-b">
-                          <%= link_to "R2", point_path(prese.points.third, batch_id: params[:batch_id], program_id: params[:program_id], project_id: params[:id], student_name: prese.student.name, student_usn: prese.student.usn), class: "text-white bg-purple-500 px-3 py-1 rounded-md hover:bg-purple-400" %>
+                          <div class="flex items-center justify-start gap-2">
+                            <%= link_to "R2", point_path(prese.points.third, batch_id: params[:batch_id], program_id: params[:program_id], project_id: params[:id], student_name: prese.student.name, student_usn: prese.student.usn), class: "text-white bg-purple-500 px-3 py-1 rounded-md hover:bg-purple-400" %>
+                            <% if prese.points.third.total > 0 %>
+                              <p class="text-red-500 font-bold"><%= prese.points.third.total %></p>
+                            <% end %>
+                          </div>
                         </td>
                       <% else %>
-                        <td class="px-4 py-2 border-b text-gray-500">x</td>
+                        <% if prese.points.third.total > 0 %>
+                          <td class="px-4 py-2 border-b text-red-500"><%= prese.points.third.total %></td>
+                        <% else %>
+                          <td class="px-4 py-2 border-b text-gray-500">x</td>
+                        <% end %>
                       <% end %>
+
+                      <% if prese.points.first.total > 0 && prese.points.second.total > 0 && prese.points.third.total > 0 %>
+                        <td class="px-4 py-2 border-b text-red-500"><%= ((prese.points.first.total + prese.points.second.total + prese.points.third.total) / 3 ).ceil %></td>
+
+                      <% else %>
+                        <td class="px-4 py-2 border-b text-red-500">Awaiting Results</td>
+                      <% end %>
+
                     </tr>
                 <% end %>
               </tbody>

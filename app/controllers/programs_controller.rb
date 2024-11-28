@@ -8,6 +8,10 @@ class ProgramsController < ApplicationController
     else
       @projects = Project.all.order(created_at: :desc)
     end
-
+  
+    if params[:query]
+      @projects  = Project.where("title ILIKE ?", "%#{params[:query]}%")
+    end
   end
+
 end
