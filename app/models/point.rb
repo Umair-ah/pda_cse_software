@@ -27,4 +27,6 @@ class Point < ApplicationRecord
     tot = (self.mark1 + self.mark2 + self.mark3 + self.mark4 + self.mark5)
     update_column(:total, tot)
   end
+
+  
 end

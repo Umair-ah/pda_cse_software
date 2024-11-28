@@ -8,4 +8,3 @@
 
 Program.create(name: "Mini")
 Program.create(name: "Major")
-Batch.create(name:"21CS")

@@ -29,8 +29,8 @@
     </div>
 
     <div class="mb-4">
-      <%= f.label :project, class: "block text-sm font-medium text-purple-800" %>
-      <%= f.text_field :project, value: Project.find(params[:project_id]).title, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none bg-gray-200", disabled: true %>
+      <%= f.label :project_title, class: "block text-sm font-medium text-purple-800" %>
+      <%= f.text_field :project_title, value: Project.find(params[:project_id]).title, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none #{session[:user_category] == "Guide" ? "" : "bg-gray-200"}", disabled: session[:user_category] == "Guide" ? false : true %>
     </div>
 
     <div class="grid grid-cols-2 gap-4">
