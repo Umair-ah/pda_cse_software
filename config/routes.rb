@@ -13,11 +13,12 @@ Rails.application.routes.draw do
 
  
 
-  resources :batches, only: %i[create index show] do
+  resources :batches, only: %i[index show] do
     collection do
       post :import_students
       post :edit
       post :update
+      post :create_two
       post :import_guides
     end
     get :show_two

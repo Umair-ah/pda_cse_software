@@ -12,11 +12,11 @@ class ProgramsController < ApplicationController
                    .distinct
 
     else
-      @projects = @program.projects.order(created_at: :desc)
+      @projects = @program.projects.joins(:batch).where(batch:{id: params[:batch_id]}).order(created_at: :desc)
     end
   
     if params[:query]
-      @projects  =  @program.projects.where("title ILIKE ?", "%#{params[:query]}%")
+      @projects  =  @program.projects.joins(:batch).where(batch:{id: params[:batch_id]}).where("title ILIKE ?", "%#{params[:query]}%")
     end
   end
 

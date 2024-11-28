@@ -125,7 +125,7 @@ class BatchesController < ApplicationController
     @batches = Batch.all.order(created_at: :desc)
   end
   
-  def create
+  def create_two
     batch = Batch.new(batch_params)
 
     if batch.save
