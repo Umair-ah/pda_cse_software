@@ -55,15 +55,24 @@
     </div>
 
   <% else %>
-    <%= link_to "batches", batches_path, class:"text-gray-600 hover:text-gray-700" %> / Mini or Major
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 place-items-center">
-    <!-- Card 1 -->
+    <nav class="text-sm text-purple-600 mb-6">
+      <%= link_to "batches", batches_path, class: "hover:text-purple-700 font-semibold" %> /
+      <span class="font-semibold text-purple-800">Mini or Major</span>
+    </nav>
+
+    <!-- Program Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 p-6">
       <% @programs.each do |prog| %>
-        <div class="w-full p-6 bg-white shadow-lg rounded-lg border-t-4 border-purple-500">
-          <div class="mb-4 p-4 border-b-2 border-gray-200 last:border-none">
-            <h3 class="text-xl font-semibold text-gray-800 truncate hover:text-purple-500"><%= link_to prog.name, program_path(prog, name: prog.name, batch_id: Batch.find(params[:id])) %></h3>
+        <!-- Single Program Card -->
+        <div class="bg-white shadow-lg rounded-lg border-t-4 border-purple-500 hover:shadow-xl transition-shadow duration-200 ease-in-out">
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-purple-700 hover:text-purple-500 truncate">
+              <%= link_to prog.name, program_path(prog, name: prog.name, batch_id: Batch.find(params[:id])) %>
+            </h3>
+            <p class="text-sm text-gray-600 mt-2">Explore details of <b><%= prog.name %> Project for <%= Batch.find(params[:id]).name %></b></p>
           </div>
         </div>
       <% end %>
+    </div>
   <% end %>
 </div>
