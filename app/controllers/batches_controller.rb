@@ -7,7 +7,7 @@ class BatchesController < ApplicationController
       redirect_to show_two_batches_path, alert: "No file uploaded. Please upload a file and try again."
       return
     end
-  
+
     file_path = params[:file].path
     xlsx = Roo::Spreadsheet.open(file_path)
     sheet = xlsx.sheet(0)
@@ -54,7 +54,7 @@ class BatchesController < ApplicationController
       student.update!(guide: guide) if student.guide.blank?
   
       # Ensure project exists or is created for the student
-      project = Project.find_or_create_by!(title: current_project_title) do |project|
+      project = Project.find_or_create_by!(batch_id: params[:batch_id] , title: current_project_title, guide: guide) do |project|
         project.program = program
       end
 

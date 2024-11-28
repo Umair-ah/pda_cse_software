@@ -9,7 +9,7 @@
   <!-- Project List Heading -->
   <div class="mt-10">
     <h3 class="text-2xl font-bold text-purple-700 mb-6">
-      Project List for <span class="text-purple-500"><%= Batch.find(params[:batch_id]).name %></span>
+      <%= Program.find(params[:id]).name %> Project List for <span class="text-purple-500"><%= Batch.find(params[:batch_id]).name %></span>
     </h3>
 
     <% unless session[:user_category] == "Guide" %>
@@ -42,12 +42,14 @@
         </thead>
         <tbody class="divide-y divide-purple-200 bg-purple-50">
           <% @projects.each_with_index do |project, i| %>
-            <tr class="hover:bg-purple-100">
-              <td class="px-6 py-4 text-purple-700 font-medium"><%= i + 1 %></td>
-              <td class="px-6 py-4 text-gray-700 hover:text-purple-500 font-medium">
-                <%= link_to project.title, project_path(project, batch_id: params[:batch_id], program_id: params[:id]) %>
-              </td>
-            </tr>
+            <% unless project.students.blank? %>
+              <tr class="hover:bg-purple-100">
+                <td class="px-6 py-4 text-purple-700 font-medium"><%= i + 1 %></td>
+                <td class="px-6 py-4 text-gray-700 hover:text-purple-500 font-medium">
+                  <%= link_to project.title, project_path(project, batch_id: params[:batch_id], program_id: params[:id]) %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
