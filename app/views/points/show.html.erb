@@ -1,0 +1,35 @@
+<div class="container mx-auto px-6 py-10 md:p-32 bg-purple-50 rounded-lg shadow-lg">
+  <nav class="text-sm text-purple-600 mb-6">
+    <%= link_to "batches", batches_path, class: "hover:text-purple-700 font-semibold" %> /
+    <%= link_to "#{Program.find(params[:program_id]).name}", batch_path(params[:batch_id]), class: "hover:text-purple-700 font-semibold" %> /
+    <%= link_to "project list - #{Batch.find(params[:batch_id]).name}", program_path(params[:program_id], name: Program.find(params[:program_id]).name, batch_id: Batch.find(params[:batch_id])), class: "hover:text-purple-700 font-semibold" %> /
+    <%= link_to "students", project_path(params[:project_id], batch_id: params[:batch_id], program_id: params[:program_id]), class: "hover:text-purple-700 font-semibold" %> /
+    <span class="font-semibold text-purple-800">
+      <%= Student.find_by(usn: params[:student_usn]).name %> (<%= Student.find_by(usn: params[:student_usn]).usn %>)
+    </span>
+  </nav>
+
+  <h1 class="text-2xl font-bold text-purple-800 mb-6"><%= @point.presentation.name %> (<%= session[:user_category] %>)</h1>
+  <h1 class="text-2xl font-bold text-purple-800 mb-6"><%= Project.find(params[:project_id]).title %></h1>
+
+
+  <%= form_with url: point_path, method: :patch, class: "bg-white p-6 rounded-lg shadow-md border border-purple-200" do |f| %>
+    <div class="mb-4">
+      <%= f.label :name, class: "block text-sm font-medium text-purple-800" %>
+      <%= f.text_field :name, value: Guide.find(session[:guide_id]).name, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none" %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <% [:mark1, :mark2, :mark3, :mark4, :mark5].each do |mark| %>
+        <div class="mb-4">
+          <%= f.label mark, class: "block text-sm font-medium text-purple-800" %>
+          <%= f.number_field mark, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "Save", class: "px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" %>
+    </div>
+  <% end %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_27_163103) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_28_040939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_27_163103) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "points", force: :cascade do |t|
+    t.string "name"
+    t.decimal "mark1", precision: 3, scale: 1, default: "0.0"
+    t.decimal "mark2", precision: 3, scale: 1, default: "0.0"
+    t.decimal "mark3", precision: 3, scale: 1, default: "0.0"
+    t.decimal "mark4", precision: 3, scale: 1, default: "0.0"
+    t.decimal "mark5", precision: 3, scale: 1, default: "0.0"
+    t.bigint "presentation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["presentation_id"], name: "index_points_on_presentation_id"
   end
 
   create_table "presentations", force: :cascade do |t|
@@ -100,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_27_163103) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "points", "presentations"
   add_foreign_key "presentations", "students"
   add_foreign_key "projects", "programs"
   add_foreign_key "students", "batches"

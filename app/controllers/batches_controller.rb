@@ -61,7 +61,11 @@ class BatchesController < ApplicationController
       StudentsProject.find_or_create_by!(project: project, student: student)
 
       2.times do |i|
-        Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}")
+        presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}")
+
+        3.times do |j|
+          Point.find_or_create_by!(presentation: presentation, name:"Change Name #{j + 1}")
+        end
       end
     end
   end
@@ -99,11 +103,16 @@ class BatchesController < ApplicationController
       c_no = row[4]&.to_s&.strip&.upcase # Column 'F'
   
       # Create or update student record
-      Student.find_or_create_by!(usn: usn) do |student|
+      student = Student.find_or_create_by!(usn: usn) do |student|
         student.name = name
         student.c_no = c_no
         student.batch_id = params[:batch_id]
       end
+
+      student.update!(c_no: c_no) if student.c_no.blank?
+      student.update!(batch_id: params[:batch_id]) if student.batch_id.blank?
+
+
     end
   
     redirect_to batch_path(params[:batch_id]), notice: "Students imported successfully!"

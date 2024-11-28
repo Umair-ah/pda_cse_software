@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  mark1: 9.99
+  mark2: 9.99
+  mark3: 9.99
+  mark4: 9.99
+  mark5: 9.99
+  presentation: one
+
+two:
+  name: MyString
+  mark1: 9.99
+  mark2: 9.99
+  mark3: 9.99
+  mark4: 9.99
+  mark5: 9.99
+  presentation: two
