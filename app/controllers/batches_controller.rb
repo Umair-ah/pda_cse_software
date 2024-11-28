@@ -42,26 +42,24 @@ class BatchesController < ApplicationController
   
       # Find the program based on the provided category
       program = Program.find_by(name: params[:category])
-  
+
+      
       # Ensure student exists or is created
       student = Student.find_or_create_by!(usn: usn) do |student|
         student.name = name
         student.guide = guide
         student.batch_id = params[:batch_id]
       end
-  
+      
       # Update student guide if it's blank (although the creation ensures it's set)
-      student.update!(guide: guide) if student.guide.blank?
-  
+      student.update!(guide: guide) #if student.guide.blank?
+      
       # Ensure project exists or is created for the student
-      project = Project.find_or_create_by!(batch_id: params[:batch_id] , title: current_project_title, guide: guide) do |project|
-        project.program = program
-      end
-
+      project = Project.find_or_create_by!(batch_id: params[:batch_id] , title: current_project_title, guide: guide, program: program) 
       StudentsProject.find_or_create_by!(project: project, student: student)
 
       2.times do |i|
-        presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}")
+        presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}", program: program)
 
         3.times do |j|
           Point.find_or_create_by!(presentation: presentation, guide_name:"Change Name #{j + 1}")

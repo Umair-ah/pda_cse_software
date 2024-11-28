@@ -31,11 +31,10 @@
                   <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">R1</th>
                   <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">R2</th>
                   <th class="px-4 py-2 text-left text-purple-800 font-semibold border-b">Total</th>
-
                 </tr>
               </thead>
               <tbody>
-                <% student.presentations.each do |prese| %>
+                <% student.presentations.joins(:program).where(program: {id: params[:program_id]}).each do |prese| %>
                     <tr class="hover:bg-purple-50">
                       <td class="px-4 py-2 border-b"><%= prese.name %></td>
                       <% if session[:user_category] == "Guide" %>

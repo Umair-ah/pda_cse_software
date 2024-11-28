@@ -76,8 +76,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_040939) do
   create_table "presentations", force: :cascade do |t|
     t.string "name"
     t.bigint "student_id", null: false
+    t.bigint "program_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_presentations_on_program_id"
     t.index ["student_id"], name: "index_presentations_on_student_id"
   end
 
@@ -123,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_040939) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "points", "presentations"
+  add_foreign_key "presentations", "programs"
   add_foreign_key "presentations", "students"
   add_foreign_key "projects", "batches"
   add_foreign_key "projects", "guides"
