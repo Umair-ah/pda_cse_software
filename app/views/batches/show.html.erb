@@ -3,7 +3,7 @@
   <h1 class="text-3xl font-bold text-purple-600 mb-4">
     Batch <%= Batch.find(params[:id]).name %>
   </h1>
-  <% unless session[:guide_id] %>
+  <% if @guide.present? && @guide.type == "Coordinator" %>
 
     <!-- Form Title -->
     <h2 class="text-2xl font-semibold text-purple-500 mb-6">
@@ -28,7 +28,9 @@
         </div>
       <% end %>
     </div>
+  <% end %>
 
+  <% if !@guide.present? %>
     <!-- Student List Section -->
     <div class="mt-10">
       <h3 class="text-xl font-semibold text-purple-500 mb-4">Student List</h3>
@@ -38,14 +40,16 @@
             <tr>
               <th class="border border-purple-300 px-4 py-2 text-left">USN</th>
               <th class="border border-purple-300 px-4 py-2 text-left">Name</th>
+              <th class="border border-purple-300 px-4 py-2 text-left">Section</th>
               <th class="border border-purple-300 px-4 py-2 text-left">C No</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-purple-200">
-            <% @students.each do |student| %>
+            <% @students&.each do |student| %>
               <tr>
                 <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= student.usn %></td>
                 <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.name %></td>
+                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.section %></td>
                 <td class="border border-purple-300 px-4 py-2 text-purple-500 font-bold"><%= student.c_no %></td>
               </tr>
             <% end %>
@@ -53,8 +57,9 @@
         </table>
       </div>
     </div>
+  <% end %>
 
-  <% else %>
+  <% if @guide.present? && @guide.type.nil? %>
     <nav class="text-sm text-purple-600 mb-6">
       <%= link_to "batches", batches_path, class: "hover:text-purple-700 font-semibold" %> /
       <span class="font-semibold text-purple-800">Mini or Major</span>

@@ -89,10 +89,10 @@
                       <% end %>
 
                       <% if prese.points.first.total > 0 && prese.points.second.total > 0 && prese.points.third.total > 0 %>
-                        <td class="px-4 py-2 border-b text-red-500"><%= ((prese.points.first.total + prese.points.second.total + prese.points.third.total) / 3 ).ceil %></td>
+                        <td class="px-4 py-2 border-b text-emerald-500 font-bold"><%= ((prese.points.first.total + prese.points.second.total + prese.points.third.total) / 3 ).ceil %>/50</td>
 
                       <% else %>
-                        <td class="px-4 py-2 border-b text-red-500">Awaiting Results</td>
+                        <td class="px-4 py-2 border-b text-emerald-500 font-bold">Awaiting Results</td>
                       <% end %>
 
                     </tr>

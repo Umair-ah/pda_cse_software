@@ -24,7 +24,7 @@ class BatchesController < ApplicationController
       usn = row[2]&.to_s&.strip&.upcase
       project_title = row[3]&.to_s&.strip&.upcase
       guide_name = row[4]&.to_s&.strip&.upcase
-  
+
       # Skip rows with invalid or missing guide_name
       # if guide_name.blank?
       #   puts "Skipping row ##{index + 1}: Guide name is blank or invalid"
@@ -71,11 +71,18 @@ class BatchesController < ApplicationController
   
 
   def show
-    unless session[:guide_id]
+    if session[:guide_id].nil?
       @students = Student.all.order(:usn)
+      return
+    end
+
+    @guide = Guide.find(session[:guide_id])
+    if @guide.type == "Coordinator"
+      @students = Student.all.order(:usn).where(section: @guide.section)
     else
       @programs = Program.limit(2)
     end
+    
   end
 
 
@@ -96,14 +103,15 @@ class BatchesController < ApplicationController
       next if index < 6
   
       # Extract data
-      usn = row[2]&.to_s&.strip&.upcase # Column 'D'
-      name = row[3]&.to_s&.strip&.upcase # Column 'E'
-      c_no = row[4]&.to_s&.strip&.upcase # Column 'F'
+      usn = row[1]&.to_s&.strip&.upcase 
+      name = row[2]&.to_s&.strip&.upcase 
+      c_no = row[3]&.to_s&.strip&.upcase 
   
       # Create or update student record
       student = Student.find_or_create_by!(usn: usn) do |student|
         student.name = name
         student.c_no = c_no
+        student.section = Guide.find(session[:guide_id]).section
         student.batch_id = params[:batch_id]
       end
 
