@@ -8,3 +8,6 @@
 
 Program.create(name: "Mini")
 Program.create(name: "Major")
+Coordinator.create(name:"A-section-coordinator", password:"pda123", section: 'A')
+Coordinator.create(name:"B-section-coordinator", password:"pda123", section: 'B')
+Coordinator.create(name:"C-section-coordinator", password:"pda123", section: 'C')

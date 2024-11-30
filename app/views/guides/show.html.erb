@@ -4,7 +4,7 @@
 
     <%= form_with url: guides_path, method: :post, local: true do |f| %>
     <div class="mb-4">
-      <%= f.label :name, "Guide Name", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.label :name, "#{@guide.type.nil? ? "Guide" : "#{@guide.type}"} Name", class: "block text-gray-700 font-semibold mb-2" %>
       <%= f.text_field :name, 
           class: "block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500", value: params[:guide_name], disabled: true %>
     </div>
@@ -14,10 +14,12 @@
           class: "block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" %>
     </div>
     <%= f.hidden_field :guide_name, value: params[:guide_name] %>
-    
-    <div class="mb-4">
-      <%= f.select :category, options_for_select([["Guide", "Guide"], ["Reviewer 1", "Reviewer 1"], ["Reviewer 2", "Reviewer 2"]]), { prompt: "Login As" }, class: "form-select w-full border border-gray-300 rounded-lg p-2 my-5 shadow-lg" %>
-    </div>
+
+    <% if @guide.type.nil? %>    
+      <div class="mb-4">
+        <%= f.select :category, options_for_select([["Guide", "Guide"], ["Reviewer 1", "Reviewer 1"], ["Reviewer 2", "Reviewer 2"]]), { prompt: "Login As" }, class: "form-select w-full border border-gray-300 rounded-lg p-2 my-5 shadow-lg" %>
+      </div>
+    <% end %>
 
     <div>
       <%= f.submit "Login", 

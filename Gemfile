@@ -77,3 +77,4 @@ end
 gem "roo"
 gem 'hirb'
 gem 'bcrypt'
+gem 'devise'

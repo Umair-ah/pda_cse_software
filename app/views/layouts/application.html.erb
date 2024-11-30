@@ -11,6 +11,8 @@
   </head>
 
   <body>
+    <p class="bg-green-500 text-white"><%= notice %></p>
+    <p class="bg-red-500 text-white"><%= alert %></p>
 
     <% if session[:guide_id] %>
       <%= button_to "Log Out", guide_path(Guide.find(session[:guide_id])), method: :delete, class:"p-3 text-white bg-red-500" %> 
@@ -19,6 +21,11 @@
     <% else %>
       <%= link_to "Guides", guides_path, class:"p-3 text-white bg-purple-500" %>
     <% end %>
-    <%= yield %>
+
+    <% if session[:guide_id]%>
+      <%= render "shared/sidebar" %>
+    <% else %>
+      <%= yield %>
+    <% end %>
   </body>
 </html>

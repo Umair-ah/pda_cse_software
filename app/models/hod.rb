@@ -1,0 +1,4 @@
+class Hod < Guide
+
+
+end
