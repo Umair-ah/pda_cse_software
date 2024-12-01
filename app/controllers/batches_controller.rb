@@ -79,7 +79,7 @@ class BatchesController < ApplicationController
 
     @guide = Guide.find(session[:guide_id])
     if @guide.type == "Coordinator"
-      @students = Student.all.order(:usn).where(section: @guide.section)
+      @students = Student.all.order(:usn).where(section: @guide.section).or(Student.where(section: nil)).order(created_at: :asc)
     else
       @programs = Program.limit(2)
     end

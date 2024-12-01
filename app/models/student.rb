@@ -7,6 +7,14 @@ class Student < ApplicationRecord
   has_one :students_project
   has_one :project, through: :students_project
 
+  after_update :change_to_capital
+
+  def change_to_capital
+    update_column(:usn, self.usn&.to_s&.strip&.upcase)
+    update_column(:name, self.name&.to_s&.strip&.upcase)
+    update_column(:section, self.section&.to_s&.strip&.upcase)
+  end
+
   #student.presentations.joins(:program).where(program: {id: params[:program_id]})
 
   def update_mini_marks

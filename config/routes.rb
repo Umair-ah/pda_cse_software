@@ -35,5 +35,12 @@ Rails.application.routes.draw do
     end
     get :show_two
   end
+
+  resources :students do
+    collection do
+      post :edit_student
+      post :update_student
+    end
+  end
   
 end

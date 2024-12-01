@@ -1,0 +1,24 @@
+<td>
+<%= form_with model: @student, url: update_student_students_path, method: :post, class:"flex flex-col items-center justify-between" do |f| %>
+
+
+  <%= f.label :usn %>
+  <%= f.text_field :usn %>
+
+  <%= f.label :name %>
+  <%= f.text_field  :name %>
+
+  <%= f.label :section %>
+  <%= f.text_field  :section %>
+
+
+  <%= f.label :c_no %>
+  <%= f.text_field  :c_no %>
+
+
+  <%= f.hidden_field :student_id, value: @student.id %>
+ 
+  <%= f.submit "Save", class:"bg-purple-500 hover:bg-purple-400 transition:ease-in duration-300 px-1 py-2 text-white" %>
+  
+<% end %>
+</td>

@@ -45,17 +45,14 @@
               <th class="border border-purple-300 px-4 py-2 text-left">Mini</th>
               <th class="border border-purple-300 px-4 py-2 text-left">Major</th>
               <th class="border border-purple-300 px-4 py-2 text-left">C No</th>
+              <th class="border border-purple-300 px-4 py-2 text-left">Actions</th>
+
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-purple-200">
             <% @students&.each do |student| %>
-              <tr>
-                <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= student.usn %></td>
-                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.name %></td>
-                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.section %></td>
-                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.mini_marks %></td>
-                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.major_marks %></td>
-                <td class="border border-purple-300 px-4 py-2 text-purple-500 font-bold"><%= student.c_no %></td>
+              <tr id="edit_<%= student.id %>">
+               <%= render "students/students_list", student: student %>
               </tr>
             <% end %>
           </tbody>
