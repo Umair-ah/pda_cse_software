@@ -6,4 +6,19 @@ class Student < ApplicationRecord
 
   has_one :students_project
   has_one :project, through: :students_project
+
+  #student.presentations.joins(:program).where(program: {id: params[:program_id]})
+
+  def update_mini_marks
+    total_mini_marks_of_both_presentations = presentations.joins(:program).where(program: {name: "Mini"}).map(&:grand_total).sum
+    final_mini_marks = (total_mini_marks_of_both_presentations/2)
+    update_column(:mini_marks, final_mini_marks.ceil)
+  end
+
+  def update_major_marks
+    total_major_marks_of_both_presentations = presentations.joins(:program).where(program: {name: "Major"}).map(&:grand_total).sum
+    final_major_marks = (total_major_marks_of_both_presentations/2)
+    update_column(:major_marks, final_major_marks.ceil)
+  end
+
 end

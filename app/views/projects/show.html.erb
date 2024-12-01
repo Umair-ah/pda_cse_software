@@ -34,7 +34,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% student.presentations.joins(:program).where(program: {id: params[:program_id]}).each do |prese| %>
+                <% student.presentations.joins(:program).where(program: {id: params[:program_id]}).order(created_at: :asc).each do |prese| %>
                     <tr class="hover:bg-purple-50">
                       <td class="px-4 py-2 border-b"><%= prese.name %></td>
                       <% if session[:user_category] == "Guide" %>
@@ -89,8 +89,8 @@
                       <% end %>
 
                       <% if prese.points.first.total > 0 && prese.points.second.total > 0 && prese.points.third.total > 0 %>
-                        <td class="px-4 py-2 border-b text-emerald-500 font-bold"><%= ((prese.points.first.total + prese.points.second.total + prese.points.third.total) / 3 ).ceil %>/50</td>
-
+                     
+                        <td class="px-4 py-2 border-b text-emerald-500 font-bold"><%= (prese.grand_total).ceil %>/50</td>
                       <% else %>
                         <td class="px-4 py-2 border-b text-emerald-500 font-bold">Awaiting Results</td>
                       <% end %>
@@ -105,3 +105,4 @@
     <% end %>
   </div>
 </div>
+

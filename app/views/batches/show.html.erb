@@ -11,6 +11,7 @@
     </h2>
 
     <%= link_to "back", batches_path, class:"text-purple-600 mb-2" %>
+    <h2 class="text-4xl font-extrabold text-purple-500">IMPORT ONLY '<%= @guide.section %>' SECTION STUDENTS</h2>
 
     <!-- Form Section -->
     <div class="bg-purple-100 shadow-md rounded-lg p-6">
@@ -30,7 +31,7 @@
     </div>
   <% end %>
 
-  <% if !@guide.present? %>
+  <% if !@guide.present? || (@guide.present? && @guide.type == "Coordinator") %>
     <!-- Student List Section -->
     <div class="mt-10">
       <h3 class="text-xl font-semibold text-purple-500 mb-4">Student List</h3>
@@ -41,6 +42,8 @@
               <th class="border border-purple-300 px-4 py-2 text-left">USN</th>
               <th class="border border-purple-300 px-4 py-2 text-left">Name</th>
               <th class="border border-purple-300 px-4 py-2 text-left">Section</th>
+              <th class="border border-purple-300 px-4 py-2 text-left">Mini</th>
+              <th class="border border-purple-300 px-4 py-2 text-left">Major</th>
               <th class="border border-purple-300 px-4 py-2 text-left">C No</th>
             </tr>
           </thead>
@@ -50,6 +53,8 @@
                 <td class="border border-purple-300 px-4 py-2 text-purple-600 font-medium"><%= student.usn %></td>
                 <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.name %></td>
                 <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.section %></td>
+                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.mini_marks %></td>
+                <td class="border border-purple-300 px-4 py-2 text-gray-700"><%= student.major_marks %></td>
                 <td class="border border-purple-300 px-4 py-2 text-purple-500 font-bold"><%= student.c_no %></td>
               </tr>
             <% end %>

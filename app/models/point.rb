@@ -16,7 +16,7 @@ class Point < ApplicationRecord
     message: "should be between 0 and 5" }
 
 
-  after_update :lock_form, :calc_tot
+  after_update :lock_form, :calc_tot, :update_presentation_grand_total
 
   def lock_form
     self.locked = true
@@ -26,6 +26,10 @@ class Point < ApplicationRecord
   def calc_tot
     tot = (self.mark1 + self.mark2 + self.mark3 + self.mark4 + self.mark5)
     update_column(:total, tot)
+  end
+
+  def update_presentation_grand_total
+    self.presentation.update_total
   end
 
   

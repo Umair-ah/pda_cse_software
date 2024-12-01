@@ -66,6 +66,7 @@ class BatchesController < ApplicationController
         end
       end
     end
+    redirect_to batches_path, notice: "Guides imported successfully!"
   end
   
   

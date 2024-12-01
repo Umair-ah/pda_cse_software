@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :admins
-  root "batches#index"
+  root "guides#index"
 
   resources :guides, only: %i[index create destroy show] do
     collection do

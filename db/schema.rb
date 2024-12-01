@@ -91,6 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_082101) do
     t.string "name"
     t.bigint "student_id", null: false
     t.bigint "program_id", null: false
+    t.decimal "grand_total", precision: 3, scale: 1, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_presentations_on_program_id"
@@ -120,6 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_082101) do
     t.string "name"
     t.string "section"
     t.string "c_no"
+    t.decimal "mini_marks", precision: 3, scale: 1, default: "0.0"
+    t.decimal "major_marks", precision: 3, scale: 1, default: "0.0"
     t.bigint "guide_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
