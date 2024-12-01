@@ -1,6 +1,8 @@
 class BatchesController < ApplicationController
 
-  def show_two; end
+  def show_two
+    @guides = Guide.all.where(type: nil)
+  end
 
   def import_guides
     if params[:file].nil?

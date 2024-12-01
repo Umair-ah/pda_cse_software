@@ -15,7 +15,13 @@ Rails.application.routes.draw do
 
 
   resources :programs, only: %i[show]
-  resources :projects, only: %i[show]
+  
+  resources :projects, only: %i[show] do
+    collection do
+      get :fetch_by_program
+    end
+  end
+
   resources :presentation, only: %i[show]
   resources :points, only: %i[show update] 
    
@@ -36,10 +42,11 @@ Rails.application.routes.draw do
     get :show_two
   end
 
-  resources :students do
+  resources :students, only: :show do
     collection do
       post :edit_student
       post :update_student
+      post :update_guide_and_project
     end
   end
   

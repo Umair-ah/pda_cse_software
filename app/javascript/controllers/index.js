@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import MarksFormController from "./marks_form_controller"
 application.register("marks-form", MarksFormController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
