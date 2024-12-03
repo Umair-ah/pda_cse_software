@@ -1,6 +1,8 @@
 class Presentation < ApplicationRecord
   belongs_to :student
   belongs_to :program
+  belongs_to :project
+
 
   has_many :points
 

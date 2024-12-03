@@ -46,7 +46,7 @@ Rails.application.routes.draw do
     collection do
       post :edit_student
       post :update_student
-      post :update_guide_and_project
+      post :update_guide
     end
   end
   

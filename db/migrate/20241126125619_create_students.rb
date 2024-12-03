@@ -7,7 +7,6 @@ class CreateStudents < ActiveRecord::Migration[7.0]
       t.string :c_no
       t.decimal :mini_marks, scale: 1, precision: 3, default: 0
       t.decimal :major_marks, scale: 1, precision: 3, default: 0
-      t.belongs_to :guide, foreign_key: true
 
       t.timestamps
     end

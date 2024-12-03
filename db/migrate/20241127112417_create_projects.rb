@@ -6,7 +6,6 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       #t.belongs_to :student, null: false, foreign_key: true
       t.belongs_to :program, null: false, foreign_key: true
       t.belongs_to :batch, null: false, foreign_key: true
-      t.belongs_to :guide, null: false, foreign_key: true
 
 
 

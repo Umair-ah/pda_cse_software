@@ -1,11 +1,12 @@
 class Student < ApplicationRecord
   belongs_to :batch
-  belongs_to :guide, optional: true
+  #belongs_to :guide, optional: true
 
   has_many :presentations
 
-  has_one :students_project
-  has_one :project, through: :students_project
+  has_many :students_projects_guides
+  has_many :projects, through: :students_projects_guides
+  has_many :guides, through: :students_projects_guides
 
   after_update :change_to_capital
 

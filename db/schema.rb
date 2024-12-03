@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_30_082101) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_03_102718) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -91,10 +91,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_082101) do
     t.string "name"
     t.bigint "student_id", null: false
     t.bigint "program_id", null: false
+    t.bigint "project_id", null: false
     t.decimal "grand_total", precision: 3, scale: 1, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_presentations_on_program_id"
+    t.index ["project_id"], name: "index_presentations_on_project_id"
     t.index ["student_id"], name: "index_presentations_on_student_id"
   end
 
@@ -108,11 +110,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_082101) do
     t.string "title"
     t.bigint "program_id", null: false
     t.bigint "batch_id", null: false
-    t.bigint "guide_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["batch_id"], name: "index_projects_on_batch_id"
-    t.index ["guide_id"], name: "index_projects_on_guide_id"
     t.index ["program_id"], name: "index_projects_on_program_id"
   end
 
@@ -123,33 +123,33 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_082101) do
     t.string "c_no"
     t.decimal "mini_marks", precision: 3, scale: 1, default: "0.0"
     t.decimal "major_marks", precision: 3, scale: 1, default: "0.0"
-    t.bigint "guide_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "batch_id", null: false
     t.index ["batch_id"], name: "index_students_on_batch_id"
-    t.index ["guide_id"], name: "index_students_on_guide_id"
   end
 
-  create_table "students_projects", force: :cascade do |t|
+  create_table "students_projects_guides", force: :cascade do |t|
     t.bigint "student_id", null: false
     t.bigint "project_id", null: false
+    t.bigint "guide_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_students_projects_on_project_id"
-    t.index ["student_id"], name: "index_students_projects_on_student_id"
+    t.index ["guide_id"], name: "index_students_projects_guides_on_guide_id"
+    t.index ["project_id"], name: "index_students_projects_guides_on_project_id"
+    t.index ["student_id"], name: "index_students_projects_guides_on_student_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "points", "presentations"
   add_foreign_key "presentations", "programs"
+  add_foreign_key "presentations", "projects"
   add_foreign_key "presentations", "students"
   add_foreign_key "projects", "batches"
-  add_foreign_key "projects", "guides"
   add_foreign_key "projects", "programs"
   add_foreign_key "students", "batches"
-  add_foreign_key "students", "guides"
-  add_foreign_key "students_projects", "projects"
-  add_foreign_key "students_projects", "students"
+  add_foreign_key "students_projects_guides", "guides"
+  add_foreign_key "students_projects_guides", "projects"
+  add_foreign_key "students_projects_guides", "students"
 end
