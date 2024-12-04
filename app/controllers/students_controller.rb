@@ -40,7 +40,18 @@ class StudentsController < ApplicationController
 
 
     def update_guide
-     
+      project_id = params[:project_id]
+      guide_id = params[:guide_id]
+
+      project = Project.find(project_id)
+      project.students_projects_guides.each do |spg|
+        spg.guide_id = guide_id
+        spg.save
+      end
+
+      redirect_to request.referrer, notice: "#{project.students.each do |s|
+                                                s.name  
+                                                end }, guide changed"
 
     end
 

@@ -48,11 +48,6 @@
             <%= f.text_field :section, value: student.section, disabled: true, class: "w-full border border-gray-300 rounded-lg p-2 text-gray-800 bg-gray-100" %>
           </div>
 
-          <!-- Guide Assignment -->
-          <div class="mt-5">
-            <%= f.label :guide, class: "block text-gray-700 font-semibold mb-1" %>
-            <%= f.collection_select :changed_guide_id, Guide.order(:name).where(type: nil), :id, :name, { prompt: "Assign Guide" }, { class: "w-full border border-gray-300 rounded-lg p-2 shadow-lg" } %>
-          </div>
 
         </div>
       <% end %>
@@ -72,7 +67,7 @@
             <!-- Guide Names -->
             <div class="mt-2 space-y-2">
               <% p.guides.joins(:students).where(students: { id: student.id }).uniq.each do |g| %>
-                <%= form_with url: update_guide_students_path, method: :post do |f| %>
+                <%= form_with url: update_guide_students_path, method: :post, data: { turbo_confirm: "#{p.students.map { |p| "#{p.usn} - #{p.name}" }.join(', ')} Guide will also change since they are under the same project." } do |f| %>
                     
 
                     <div class="flex items-center justify-between gap-6">
@@ -84,8 +79,8 @@
                       <%= f.hidden_field :project_id, value: p.id %>
                        
                       <div class="text-sm font-semibold text-gray-700">
-                        <%= f.label :guide, "Change Guide:" %>
-                        <%= f.collection_select :guide_id, Guide.order(:name).where(type: nil), :id, :name, disabled: true, class:"rounded-md bg-gray-200" %>
+                        <%= f.label :guide, "Change Guide:", class:"block" %>
+                        <%= f.collection_select :guide_id, Guide.order(:name).where(type: nil), :id, :name, { prompt: "Change Guide" }, { class: "w-1/2 border border-gray-300 rounded-lg p-2 shadow-lg block" }  %>
                         <%= f.submit "Save" %>
                       </div>
                     </div>
