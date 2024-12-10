@@ -11,27 +11,78 @@
     <tbody>
       <% @projects.each_with_index do |project, index| %>
         <tr class="<%= index.even? ? 'bg-purple-100' : 'bg-white' %> border-b border-purple-500">
+          <!-- Project Index -->
           <td class="px-4 py-2 font-medium text-purple-700"><%= index + 1 %></td>
-          <td class="px-4 py-2 text-purple-700"><%= project.title %></td>
-          <td class="px-4 py-2 text-purple-600">
-           <%= project.students.map { |s| 
-              "#{s.usn}:" }.join('<br/>').html_safe %>
           
-            <%= project.presentations.map { |pr|
-                pr.points.where(student_usn: s.usn).order(:created_at).pluck(:total).join(', ')
-              
-              }%>
-            
-          </td>
+          <!-- Project Title -->
+          <td class="px-4 py-2 text-purple-700"><%= project.title %></td>
+          
+          <!-- Presentation 1 -->
           <td class="px-4 py-2 text-purple-600">
-           <%= project.students.map { |s| 
-              "#{s.usn}: #{s.projects.map { |p| 
-                p.presentations.where(name: "Presentation 2").map { |pr| 
-                  "#{pr.points.where(student_usn: s.usn).order(:created_at).pluck(:total).join(', ')}"
-                }.join("\n")
-              }.join('; ')}"
-            }.join('<br/>').html_safe %>
+            <% presentations1 = project.presentations.where(sequence: 1) %>
+            <% if presentations1.present? %>
+              <% presentations1.each_with_index do |presentation, index| %>
+                  
+                <span class="my-5"><%= presentation.student.name %>(<%= presentation.student.usn %>)</span><br/>
+                <% presentation.points.order(created_at: :asc).each_with_index do |point, reviewer_index| %>
+                  <% if reviewer_index== 0 %>
+                    <span>G:</span>
+                  <% elsif reviewer_index== 1 %>
+                    <span>R1:</span>
+
+                  <% elsif reviewer_index== 2 %>
+                    <span>R2:</span>
+
+                  <% end %>
+
+                  <% if point.total == 0 %>
+                    <span class="font-extrabold text-red-500">X</span><br/>
+
+                  <% else %>
+                   <%= point.total %><br/>
+                  <% end %>
+                <% end %>
+                Total: <%= presentation.grand_total %>/50<br><hr class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700">
+              <% end %>
+            <% else %>
+              No Data
+            <% end %>
+            <br/>
           </td>
+
+          <!-- Presentation 2 -->
+          <td class="px-4 py-2 text-purple-600">
+            <% presentations2 = project.presentations.where(sequence: 2) %>
+            <% if presentations2.present? %>
+              <% presentations2.each_with_index do |presentation, index| %>
+                  
+                <span class="my-5"><%= presentation.student.name %>(<%= presentation.student.usn %>)</span><br/>
+                <% presentation.points.order(created_at: :asc).each_with_index do |point, reviewer_index| %>
+                  <% if reviewer_index== 0 %>
+                    <span>G:</span>
+                  <% elsif reviewer_index== 1 %>
+                    <span>R1:</span>
+
+                  <% elsif reviewer_index== 2 %>
+                    <span>R2:</span>
+
+                  <% end %>
+
+                  <% if point.total == 0 %>
+                    <span class="font-extrabold text-red-500">X</span><br/>
+
+                  <% else %>
+                   <%= point.total %><br/>
+                  <% end %>
+                <% end %>
+                Total: <%= presentation.grand_total %>/50<br><hr class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700">
+              <% end %>
+            <% else %>
+              No Data
+            <% end %>
+            <br/>
+          </td>
+
         </tr>
       <% end %>
     </tbody>

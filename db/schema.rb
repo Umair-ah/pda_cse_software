@@ -93,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_03_102718) do
     t.bigint "program_id", null: false
     t.bigint "project_id", null: false
     t.decimal "grand_total", precision: 3, scale: 1, default: "0.0"
+    t.integer "sequence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["program_id"], name: "index_presentations_on_program_id"

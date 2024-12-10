@@ -76,7 +76,8 @@ class BatchesController < ApplicationController
 
   def index_two
     @guide = Guide.find(session[:guide_id])
-    @projects = Project.where(batch_id: params[:batch_id])
+    #@projects = Project.where(batch_id: params[:batch_id])
+    @projects = Project.includes(:students, presentations: :points).where(batch_id: params[:batch_id])
 
   end
 
@@ -141,6 +142,7 @@ class BatchesController < ApplicationController
       2.times do |i|
         presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}", program: program) do |pre|
           pre.project = project
+          pre.sequence = i+1
         end
 
         3.times do |j|

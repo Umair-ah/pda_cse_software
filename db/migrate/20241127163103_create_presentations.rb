@@ -7,6 +7,7 @@ class CreatePresentations < ActiveRecord::Migration[7.0]
       t.belongs_to :project, null: false, foreign_key: true
 
       t.decimal :grand_total, scale: 1, precision: 3, default: 0
+      t.integer :sequence
 
 
       t.timestamps

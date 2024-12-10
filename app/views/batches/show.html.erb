@@ -33,9 +33,8 @@
 
   <% if !@guide.present? || (@guide.present? && @guide.type == "Coordinator") %>
     <div class="flex items-center justify-between">
-      <%= link_to "Projects", index_two_batches_path(batch_id: params[:id]) %>
-      <%= link_to "Assign Project & Guide Manually To Students", assign_guides_manually_batches_path(batch_id: params[:id]) %>
-      <%= link_to "Change Teammates", change_teammate_batches_path(batch_id: params[:id]) %>
+      <%= link_to "Projects", index_two_batches_path(batch_id: params[:id]), class:"bg-rose-400 text-white rounded-md p-2 hover:bg-rose-600 transition:ease-in duration-300" %>
+      <%= link_to "Assign Project & Guide Manually To Students", assign_guides_manually_batches_path(batch_id: params[:id]), class:"bg-rose-400 text-white rounded-md p-2 hover:bg-rose-600 transition:ease-in duration-300" %>
 
 
     </div>

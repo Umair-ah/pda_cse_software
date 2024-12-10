@@ -34,6 +34,7 @@
       <div class="dropdown flex items-center gap-4" data-dropdown-target="dropdown">
         <%= select_tag 'student_ids[]', 
           options_from_collection_for_select(
+            
             Student.where(batch_id: params[:batch_id], section: Guide.find(session[:guide_id]).section), 
             :id, 
             ->(student) { "#{student.usn} (#{student.name})" }
