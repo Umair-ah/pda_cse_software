@@ -32,6 +32,14 @@
   <% end %>
 
   <% if !@guide.present? || (@guide.present? && @guide.type == "Coordinator") %>
+    <div class="flex items-center justify-between">
+      <%= link_to "Projects", index_two_batches_path(batch_id: params[:id]) %>
+      <%= link_to "Assign Project & Guide Manually To Students", assign_guides_manually_batches_path(batch_id: params[:id]) %>
+      <%= link_to "Change Teammates", change_teammate_batches_path(batch_id: params[:id]) %>
+
+
+    </div>
+
     <!-- Student List Section -->
     <div class="mt-10">
       <h3 class="text-xl font-semibold text-purple-500 mb-4">Student List</h3>

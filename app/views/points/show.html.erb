@@ -16,16 +16,25 @@
     <div class="mb-4">
       <%= f.label :guide_name, "#{ session[:user_category] } Name", class: "block text-sm font-medium text-purple-800" %>
       <%= f.text_field :guide_name, value: Guide.find(session[:guide_id]).name, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none bg-gray-200", disabled: true %>
+
+      <% if Project.find(params[:project_id]).guides.map(&:name).include?(Guide.find(session[:guide_id]).name) %>
+        <%= f.hidden_field :guide_name, value: Guide.find(session[:guide_id]).name %>
+      <% end %>
     </div>
+
 
     <div class="mb-4">
       <%= f.label :student_name, "Student Name", class: "block text-sm font-medium text-purple-800" %>
       <%= f.text_field :student_name, value: Student.find_by(usn: params[:student_usn]).name, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none bg-gray-200", disabled: true %>
+      <%= f.hidden_field :student_name, value: Student.find_by(usn: params[:student_usn]).name %>
+
     </div>
 
     <div class="mb-4">
       <%= f.label :student_usn, "Student USN", class: "block text-sm font-medium text-purple-800" %>
       <%= f.text_field :student_usn, value: Student.find_by(usn: params[:student_usn]).usn, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none bg-gray-200", disabled: true %>
+      <%= f.hidden_field :student_usn, value: Student.find_by(usn: params[:student_usn]).usn %>
+
     </div>
 
     <div class="mb-4">

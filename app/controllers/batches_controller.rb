@@ -1,5 +1,85 @@
 class BatchesController < ApplicationController
 
+  def change_teammate_post
+    if params[:new_project_id].blank?
+      return
+    end
+
+    existing_project_id = params[:existing_project_id]
+    new_project_id = params[:new_project_id]
+    student_id = params[:student_id]
+    guide_id = params[:guide_id]
+
+    StudentsProjectsGuide.find_by(project_id: existing_project_id, student_id: student_id, guide_id: guide_id).destroy
+    new_guide = StudentsProjectsGuide.find_by(project_id: new_project_id).guide
+    StudentsProjectsGuide.create(project_id: new_project_id, student_id: student_id, guide: new_guide)
+
+    redirect_to request.referrer, notice: "Changed the student's project!"
+  end
+
+
+  def assign_guides_manually_post
+    project_title = params[:project_title]
+    batch_id = params[:batch_id]
+    guide_id = params[:guide_id]
+    program = Program.find_by(name: params[:program])
+    student_ids = params[:student_ids]
+
+    if project_title.blank? || guide_id.blank? || student_ids.blank?
+      redirect_to request.referrer, alert: "fill all the details"
+      return
+    end
+  
+    guide = Guide.find(guide_id)
+  
+    student_ids = student_ids.map(&:to_i)
+  
+    begin
+      ActiveRecord::Base.transaction do
+        student_ids.each_with_index do |s, i|
+          student = Student.find(s)
+          project = Project.create!(batch_id: batch_id, title: project_title, program: program)
+  
+          StudentsProjectsGuide.find_or_create_by!(project: project, student: student, guide: guide)
+  
+          2.times do |i|
+            presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}", program: program) do |pr|
+              pr.project = project
+            end
+  
+            if presentation.points.size == 3
+              raise ActiveRecord::Rollback, "Too many points for presentation #{presentation.name}"
+            else
+              3.times do |j|
+                Point.find_or_create_by!(presentation: presentation, guide_name: "Change Name #{j + 1}")
+              end
+            end
+          end
+        end
+      end
+  
+  
+    rescue ActiveRecord::Rollback => e
+      success = false
+      flash[:alert] = "Something went wrong: #{e.message}"
+      redirect_to request.referer || batches_path 
+    end
+
+    if success
+      redirect_to request.referer, notice: 'Guides assigned and projects created successfully.'
+    else
+      redirect_to request.referer || batches_path, alert: 'Something went wrong. Please try again.'
+    end
+  end
+  
+  
+
+  def index_two
+    @guide = Guide.find(session[:guide_id])
+    @projects = Project.where(batch_id: params[:batch_id])
+
+  end
+
   def show_two
     @guides = Guide.all.where(type: nil)
   end
@@ -59,7 +139,9 @@ class BatchesController < ApplicationController
       
 
       2.times do |i|
-        presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}", program: program, project: project)
+        presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}", program: program) do |pre|
+          pre.project = project
+        end
 
         3.times do |j|
           Point.find_or_create_by!(presentation: presentation, guide_name:"Change Name #{j + 1}")

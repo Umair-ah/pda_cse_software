@@ -16,5 +16,7 @@ class Presentation < ApplicationRecord
       student.update_major_marks
     end
   end
+
+
   
 end

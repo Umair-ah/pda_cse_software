@@ -32,5 +32,7 @@ class Point < ApplicationRecord
     self.presentation.update_total
   end
 
+ 
+
   
 end

@@ -7,6 +7,7 @@ class PointsController < ApplicationController
   def update
     @point = Point.find(params[:id])
     if @point.update(point_params)
+      @point.presentation.project.update(title: @point.project_title&.to_s&.strip&.upcase)
       redirect_to request.referrer, notice: "Total Done"
     else 
       flash[:alert] = "give marks under proper range."

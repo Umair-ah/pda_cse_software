@@ -60,9 +60,33 @@
             <h2 class="text-lg font-bold text-emerald-800">
               <span class="text-emerald-600"><%= p.program.name %></span>
             </h2>
-            <div class="flex items-center space-x-2 text-sm text-gray-900">
-              <span class="text-gray-700 font-medium">•</span>
-              <span><%= p.title %> (<%= p.id %>)</span>
+            <div class="mt-2 space-y-2">
+              <%= form_with url: change_teammate_post_batches_path, method: :post, data: { turbo_confirm: "Are you sure?" } do |f| %>
+                    
+
+                    <div class="flex items-center justify-between gap-6">
+                      <div class="flex items-center text-sm font-semibold text-gray-700">
+                        <%= f.label :project, "Current Project:"%><br/>
+                        <%= f.text_field :project, value: p.title, disabled: true, class:"rounded-md bg-gray-200" %>
+                        <%= f.hidden_field :student_id, value: student.id %>
+                        <%= f.hidden_field :existing_project_id, value: p.id %>
+                        <%= f.hidden_field :guide_id, value: p.guides.map(&:id).uniq %>
+                          
+
+                      </div>
+
+
+                       
+                      <div class="text-sm font-semibold text-gray-700">
+                        <%= f.label :project, "Change Project:", class:"block" %>
+                        <%= f.collection_select :new_project_id, Project.where(batch_id: params[:id], program_id: p.program.id).order(:title), :id, :title, { prompt: "Change Project" }, { class: "w-1/2 border border-gray-300 rounded-lg p-2 shadow-lg block" }  %>
+                        <%= f.submit "Save" %>
+                      </div>
+                    </div>
+
+
+
+                <% end %>
             </div>
             <!-- Guide Names -->
             <div class="mt-2 space-y-2">
@@ -107,5 +131,9 @@
       </div>
     </div>
   </div>
+</td>
+
+<td>
+  <%= link_to "Change Project", change_teammate_batches_path(batch_id: params[:id], student_id: student.id) %>
 </td>
 

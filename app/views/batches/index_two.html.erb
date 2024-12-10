@@ -1,0 +1,39 @@
+<div class="overflow-x-auto p-4">
+  <table class="min-w-full border border-purple-500 rounded-lg shadow-md text-left">
+    <thead>
+      <tr class="bg-purple-500 text-white">
+        <th class="px-4 py-2">#</th>
+        <th class="px-4 py-2">Project Title</th>
+        <th class="px-4 py-2">Presentation 1 (G, R1, R2)</th>
+        <th class="px-4 py-2">Presentation 2 (G, R1, R2)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @projects.each_with_index do |project, index| %>
+        <tr class="<%= index.even? ? 'bg-purple-100' : 'bg-white' %> border-b border-purple-500">
+          <td class="px-4 py-2 font-medium text-purple-700"><%= index + 1 %></td>
+          <td class="px-4 py-2 text-purple-700"><%= project.title %></td>
+          <td class="px-4 py-2 text-purple-600">
+           <%= project.students.map { |s| 
+              "#{s.usn}:" }.join('<br/>').html_safe %>
+          
+            <%= project.presentations.map { |pr|
+                pr.points.where(student_usn: s.usn).order(:created_at).pluck(:total).join(', ')
+              
+              }%>
+            
+          </td>
+          <td class="px-4 py-2 text-purple-600">
+           <%= project.students.map { |s| 
+              "#{s.usn}: #{s.projects.map { |p| 
+                p.presentations.where(name: "Presentation 2").map { |pr| 
+                  "#{pr.points.where(student_usn: s.usn).order(:created_at).pluck(:total).join(', ')}"
+                }.join("\n")
+              }.join('; ')}"
+            }.join('<br/>').html_safe %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,70 @@
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-rose-100 rounded-lg shadow-lg">
+  <%= link_to "Assign Guides Manually For Mini Project", 
+              assign_guides_manually_batches_path(batch_id: params[:batch_id], program: "Mini"), 
+              class: "text-rose-600 hover:text-white bg-white hover:bg-rose-600 border border-rose-600 px-4 py-2 rounded-lg text-center shadow w-full sm:w-auto #{(params[:program] == "Mini").present? ? "bg-rose-600 text-white" : ""}" %>
+  <%= link_to "Assign Guides Manually For Major Project", 
+              assign_guides_manually_batches_path(batch_id: params[:batch_id], program: "Major"), 
+              class: "text-rose-600 hover:text-white bg-white hover:bg-rose-600 border border-rose-600 px-4 py-2 rounded-lg text-center shadow w-full sm:w-auto #{(params[:program] == "Major").present? ? "bg-rose-600 text-white" : ""}" %>
+</div>
+
+<% if params[:program].present? %>
+  <%= form_with url: assign_guides_manually_post_batches_path, data: { controller: "dropdown" }, class: "mt-6 bg-white p-6 rounded-lg shadow-lg" do |f| %>
+    
+    <% if params[:program] == "Mini" %>
+      <%= f.hidden_field :program, value: "Mini" %>
+      <h1 class="text-rose-500 font-bold text-2xl sm:text-3xl md:text-4xl text-center mb-6">
+        Assign Manually For MINI PROJECT - <%= Batch.find(params[:batch_id]).name %>
+      </h1>
+    <% elsif params[:program] == "Major" %>
+      <h1 class="text-rose-500 font-bold text-2xl sm:text-3xl md:text-4xl text-center mb-6">
+        Assign Manually For MAJOR PROJECT - <%= Batch.find(params[:batch_id]).name %>
+      </h1>
+      <%= f.hidden_field :program, value: "Major" %>
+    <% end %>
+
+      <%= f.hidden_field :batch_id, value: params[:batch_id] %>
+
+
+    <div class="mb-4">
+      <%= f.label :project_title, "Project Title", class: "block text-rose-700 font-semibold mb-2" %>
+      <%= f.text_field :project_title, class: "w-full border border-gray-300 rounded-lg p-2 shadow focus:outline-none focus:ring focus:ring-rose-500" %>
+    </div>
+
+    <div id="dropdown-container" data-dropdown-target="container" class="space-y-4 mb-6">
+      <div class="dropdown flex items-center gap-4" data-dropdown-target="dropdown">
+        <%= select_tag 'student_ids[]', 
+          options_from_collection_for_select(
+            Student.where(batch_id: params[:batch_id], section: Guide.find(session[:guide_id]).section), 
+            :id, 
+            ->(student) { "#{student.usn} (#{student.name})" }
+          ), 
+          include_blank: true, 
+          data: { action: "change->dropdown#filter" }, 
+          class: "form-select w-full sm:w-auto border border-gray-300 rounded-lg p-2 shadow focus:outline-none focus:ring focus:ring-rose-500" %>
+        <button type="button" 
+                data-action="click->dropdown#removeDropdown" 
+                class="remove-dropdown bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-lg shadow">
+          -
+        </button>
+      </div>
+    </div>
+
+    <button type="button" 
+            data-action="click->dropdown#addDropdown" 
+            class="add-dropdown bg-rose-600 hover:bg-rose-500 text-white px-4 py-2 rounded-lg shadow mb-6 w-full sm:w-auto">
+      +
+    </button>
+
+    <div class="mb-4">
+      <%= f.collection_select :guide_id, 
+                              Guide.order(:name).where(type: nil), 
+                              :id, 
+                              :name, 
+                              { prompt: "Select Guide" }, 
+                              { class: "w-full sm:w-1/2 border border-gray-300 rounded-lg p-2 shadow focus:outline-none focus:ring focus:ring-rose-500" } %>
+    </div>
+
+    <%= f.submit "Submit", 
+                 class: "w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-2 rounded-lg shadow-lg" %>
+  <% end %>
+<% end %>

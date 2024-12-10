@@ -38,6 +38,13 @@ Rails.application.routes.draw do
       post :update
       post :create_two
       post :import_guides
+      get :index_two
+      get :assign_guides_manually
+      post :assign_guides_manually_post
+      get :change_teammate
+      post :change_teammate_post
+
+
     end
     get :show_two
   end
