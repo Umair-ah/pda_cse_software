@@ -32,10 +32,15 @@ class GuidesController < ApplicationController
 
 
   def index
-    if params[:query]
-      @guides = Guide.where("name ILIKE ?", "%#{params[:query]}%")
+
+    if session[:guide_id].present?
+      redirect_to batches_path
     else
-      @guides = []
+      if params[:query]
+        @guides = Guide.where("name ILIKE ?", "%#{params[:query]}%")
+      else
+        @guides = []
+      end
     end
   end
 
@@ -69,7 +74,7 @@ class GuidesController < ApplicationController
 
   def destroy
     session[:guide_id] = nil
-    redirect_to root_path, notice: "Logged out successfully."
+    redirect_to guides_path, notice: "Logged out successfully."
   end
 
 
