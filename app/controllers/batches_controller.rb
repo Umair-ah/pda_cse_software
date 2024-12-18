@@ -234,7 +234,10 @@ class BatchesController < ApplicationController
   end
 
   def edit
+    puts "reach 1"
     @batch = Batch.find(params[:batch_id])
+    puts "reach 2 #{@batch}"
+
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream:

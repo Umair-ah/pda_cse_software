@@ -1,10 +1,10 @@
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-rose-100 rounded-lg shadow-lg">
   <%= link_to "Assign Guides Manually For Mini Project", 
               assign_guides_manually_batches_path(batch_id: params[:batch_id], program: "Mini"), 
-              class: "text-rose-600 hover:text-white bg-white hover:bg-rose-600 border border-rose-600 px-4 py-2 rounded-lg text-center shadow w-full sm:w-auto #{(params[:program] == "Mini").present? ? "bg-rose-600 text-white" : ""}" %>
+              class: "text-rose-600 hover:text-white hover:bg-rose-600 border border-rose-600 px-4 py-2 rounded-lg text-center shadow w-full sm:w-auto #{(params[:program] == "Mini").present? ? "bg-rose-600 text-white" : ""}" %>
   <%= link_to "Assign Guides Manually For Major Project", 
               assign_guides_manually_batches_path(batch_id: params[:batch_id], program: "Major"), 
-              class: "text-rose-600 hover:text-white bg-white hover:bg-rose-600 border border-rose-600 px-4 py-2 rounded-lg text-center shadow w-full sm:w-auto #{(params[:program] == "Major").present? ? "bg-rose-600 text-white" : ""}" %>
+              class: "text-rose-600 hover:text-white hover:bg-rose-600 border border-rose-600 px-4 py-2 rounded-lg text-center shadow w-full sm:w-auto #{(params[:program] == "Major").present? ? "bg-rose-600 text-white" : ""}" %>
 </div>
 
 <% if params[:program].present? %>

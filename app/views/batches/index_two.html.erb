@@ -39,10 +39,10 @@
                     <span class="font-extrabold text-red-500">X</span><br/>
 
                   <% else %>
-                   <%= point.total %><br/>
+                   <span class="text-gray-800"><%= point.total %> | <%= point.guide_name %></span><br/>
                   <% end %>
                 <% end %>
-                Total: <%= presentation.grand_total %>/50<br><hr class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700">
+                Total: <span class="text-gray-800 font-bold"><%= presentation.grand_total %>/50</span><br><hr class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700">
               <% end %>
             <% else %>
               No Data
@@ -72,10 +72,10 @@
                     <span class="font-extrabold text-red-500">X</span><br/>
 
                   <% else %>
-                   <%= point.total %><br/>
+                   <span class="text-gray-800"><%= point.total %> | <%= point.guide_name %></span><br/>
                   <% end %>
                 <% end %>
-                Total: <%= presentation.grand_total %>/50<br><hr class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700">
+                Total: <span class="text-gray-800 font-bold"><%= presentation.grand_total %>/50</span><br><hr class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700">
               <% end %>
             <% else %>
               No Data

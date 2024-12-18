@@ -17,9 +17,7 @@
       <%= f.label :guide_name, "#{ session[:user_category] } Name", class: "block text-sm font-medium text-purple-800" %>
       <%= f.text_field :guide_name, value: Guide.find(session[:guide_id]).name, class: "w-full mt-1 p-2 border border-purple-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none bg-gray-200", disabled: true %>
 
-      <% if Project.find(params[:project_id]).guides.map(&:name).include?(Guide.find(session[:guide_id]).name) %>
-        <%= f.hidden_field :guide_name, value: Guide.find(session[:guide_id]).name %>
-      <% end %>
+      <%= f.hidden_field :guide_name, value: Guide.find(session[:guide_id]).name %>
     </div>
 
 
