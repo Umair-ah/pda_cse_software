@@ -11,10 +11,13 @@
 
         <!-- Actions -->
         <% if session[:guide_id] %>
-          <% if Guide.find(session[:guide_id]).type == "Coordinator" %>
+          <% if Guide.find(session[:guide_id]).type == "Coordinator" && b.students.where(section: Guide.find(session[:guide_id]).section).present? %>
             <div class="grid place-items-end">
               <%= link_to "Upload Guides", batch_show_two_path(b), class: "bg-emerald-600 text-white font-medium py-1 px-2 rounded-lg shadow-md hover:bg-emerald-500 focus:ring-4 focus:ring-emerald-400 transition:ease-in duration-300" %>
             </div>
+          <% elsif Guide.find(session[:guide_id]).type == "Coordinator" && !b.students.where(section: Guide.find(session[:guide_id]).section).present? %>
+            <span class="text-red-500">Upload Students List</span>
+
           <% end %>
 
           <!-- Edit Icon -->

@@ -59,7 +59,7 @@ class GuidesController < ApplicationController
     if guide&.authenticate(params[:password])
       session[:guide_id] = guide.id
       session[:user_category] = params[:category]
-      redirect_to root_path, notice: "Logged in successfully."
+      redirect_to batches_path, notice: "Logged in successfully."
     else
       flash[:alert] = "Invalid password."
       redirect_to request.referrer

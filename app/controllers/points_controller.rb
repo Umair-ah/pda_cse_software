@@ -13,7 +13,7 @@ class PointsController < ApplicationController
       redirect_to request.referrer, notice: "Total Done"
     else 
       flash[:alert] = "give marks under proper range."
-      render request.referrer, status: :unprocessable_entity
+      render :show, status: :unprocessable_entity
     end
   end
 
