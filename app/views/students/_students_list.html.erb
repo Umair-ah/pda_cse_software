@@ -76,7 +76,7 @@
                       </div>
 
 
-                       
+                       <span class="font-extrabold text-red-700"> <%= p.program.id %></span>
                       <div class="text-sm font-semibold text-gray-700">
                         <%= f.label :project, "Change Project:", class:"block" %>
                         <%= f.collection_select :new_project_id, Project.where(batch_id: params[:id], program_id: p.program.id).order(:title), :id, :title, { prompt: "Change Project" }, { class: "w-1/2 border border-gray-300 rounded-lg p-2 shadow-lg block" }  %>
@@ -131,9 +131,5 @@
       </div>
     </div>
   </div>
-</td>
-
-<td>
-  <%= link_to "Change Project", change_teammate_batches_path(batch_id: params[:id], student_id: student.id) %>
 </td>
 
