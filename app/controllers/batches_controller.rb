@@ -5,8 +5,8 @@ class BatchesController < ApplicationController
   end
 
   def preview_guides
-    if params[:file].nil?
-      redirect_to show_two_batches_path, alert: "No file uploaded. Please upload a file and try again."
+    if params[:file].nil? || params[:category] == ""
+      redirect_to request.referrer, alert: "No file uploaded Or No Project Type Selected. Please upload a file and try again."
       return
     end
   

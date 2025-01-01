@@ -58,5 +58,11 @@
   </div>
   <% end %>
 
+  <% if notice %>
+    <p class="bg-green-500 text-white p-3"><%= notice %></p>
+  <% elsif alert %>
+    <p class="bg-red-500 text-white p-3"><%= alert %></p>
+  <% end %>
+
   <%= yield %>
 </div>
