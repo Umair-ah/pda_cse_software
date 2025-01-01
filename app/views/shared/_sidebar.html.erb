@@ -52,5 +52,11 @@
 </aside>
 
 <div class="p-4 sm:ml-64">
+  <% if Guide.find(session[:guide_id]).type == "Coordinator" %>
+  <div class="grid place-itens-center">
+    <span class="text-red-500 grid font-bold font-2xl">Logged In As Section <%= Guide.find(session[:guide_id]).section %> Coordinator</span>
+  </div>
+  <% end %>
+
   <%= yield %>
 </div>

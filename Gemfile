@@ -78,3 +78,4 @@ gem "roo"
 gem 'hirb'
 gem 'bcrypt'
 gem 'devise'
+gem 'activerecord-session_store'

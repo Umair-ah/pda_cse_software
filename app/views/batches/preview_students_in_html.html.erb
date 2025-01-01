@@ -1,0 +1,38 @@
+<h2 class="text-4xl font-bold mb-4 text-center">Preview Confirm</h2>
+
+<div class="flex items-center justify-between m-4">
+  <%= form_with url: cancel_students_batches_path, method: :post, local: true do |form| %>
+    <div class="flex space-x-4 mt-4">
+      <%= form.submit "Cancel", class: "bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition:ease-in duration-300" %>
+    </div>
+  <% end %>
+
+  <%= form_with url: confirm_students_batches_path, method: :post, local: true do |form| %>
+    <div class="flex space-x-4">
+      <%= form.submit "Confirm", class: "bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition:ease-in duration-300" %>
+    </div>
+  <% end %>
+
+</div>
+
+<table class="table-auto border-collapse border border-gray-400 w-full mb-6">
+  <thead>
+    <tr>
+      <th class="border border-gray-300 px-4 py-2">USN</th>
+      <th class="border border-gray-300 px-4 py-2">Name</th>
+      <th class="border border-gray-300 px-4 py-2">Section</th>
+      <th class="border border-gray-300 px-4 py-2">Contact Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td class="border border-gray-300 px-4 py-2"><%= student[:usn] %></td>
+        <td class="border border-gray-300 px-4 py-2"><%= student[:name] %></td>
+        <td class="border border-gray-300 px-4 py-2"><%= Guide.find(session[:guide_id]).section %></td>
+        <td class="border border-gray-300 px-4 py-2"><%= student[:c_no] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

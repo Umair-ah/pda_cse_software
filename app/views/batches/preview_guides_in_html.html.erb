@@ -1,0 +1,37 @@
+<% if @guides_preview.present? %>
+
+  <div class="flex items-center justify-between my-3">
+    <%= form_with url: cancel_guides_batches_path, method: :post do %>
+      <%= submit_tag "Cancel", class: "bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition:ease-in duration-300" %>
+    <% end %>
+
+    <%= form_with url: confirm_guides_batches_path, method: :post do %>
+      <%= submit_tag "Confirm", class: "bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition:ease-in duration-300" %>
+    <% end %>
+
+  </div>
+
+  <table class="table-auto w-full">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Name</th>
+        <th class="px-4 py-2">USN</th>
+        <th class="px-4 py-2">Project Title</th>
+        <th class="px-4 py-2">Guide Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @guides_preview.each do |guide| %>
+        <tr>
+          <td class="border px-4 py-2"><%= guide[:name] %></td>
+          <td class="border px-4 py-2"><%= guide[:usn] %></td>
+          <td class="border px-4 py-2"><%= guide[:project_title] %></td>
+          <td class="border px-4 py-2"><%= guide[:guide_name] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <p>No data available for preview.</p>
+<% end %>

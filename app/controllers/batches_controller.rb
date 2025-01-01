@@ -1,5 +1,181 @@
 class BatchesController < ApplicationController
 
+  def preview_guides_in_html
+    @guides_preview = session[:guides_preview]
+  end
+
+  def preview_guides
+    if params[:file].nil?
+      redirect_to show_two_batches_path, alert: "No file uploaded. Please upload a file and try again."
+      return
+    end
+  
+    file_path = params[:file].path
+    xlsx = Roo::Spreadsheet.open(file_path)
+    sheet = xlsx.sheet(0)
+  
+    @guides_preview = []
+    current_guide_name = nil
+    current_project_title = nil
+  
+    sheet.each_with_index do |row, index|
+      next if index < 9 # Skip the header rows
+  
+      # Extract data
+      name = row[1]&.to_s&.strip&.upcase
+      usn = row[2]&.to_s&.strip&.upcase
+      project_title = row[3]&.to_s&.strip&.upcase
+      guide_name = row[4]&.to_s&.strip&.upcase
+  
+      # Update current guide and project titles if new ones are found
+      current_guide_name = guide_name.present? ? guide_name : current_guide_name
+      current_project_title = project_title.present? ? project_title : current_project_title
+  
+      # Add row data to preview
+      @guides_preview << {
+        name: name,
+        usn: usn,
+        project_title: current_project_title,
+        guide_name: current_guide_name
+      }
+    end
+  
+    session[:guides_preview] = @guides_preview
+    session[:batch_id] = params[:batch_id]
+    session[:category_proj] = params[:category]
+  
+    redirect_to preview_guides_in_html_batches_path, notice: "Preview generated successfully!"
+  end
+  
+  def confirm_guides
+    guides_preview = session[:guides_preview]
+    batch_id = session[:batch_id]
+    category = session[:category_proj]
+  
+    if guides_preview.nil? || batch_id.nil? || category.nil?
+      redirect_to show_two_batches_path, alert: "No data to save. Please upload again."
+      return
+    end
+  
+    program = Program.find_by(name: category)
+  
+    guides_preview.each do |guide_data|
+      guide = Guide.find_or_create_by!(name: guide_data[:guide_name]) do |g|
+        g.password = "pda123"
+      end
+  
+      student = Student.find_or_create_by!(usn: guide_data[:usn]) do |s|
+        s.name = guide_data[:name]
+        s.batch_id = batch_id
+      end
+  
+      project = Project.find_or_create_by!(batch_id: batch_id, title: guide_data[:project_title], program: program)
+  
+      StudentsProjectsGuide.find_or_create_by!(project: project, student: student, guide: guide)
+  
+      2.times do |i|
+        presentation = Presentation.find_or_create_by!(student: student, name: "Presentation #{i + 1}", program: program) do |pre|
+          pre.project = project
+          pre.sequence = i + 1
+        end
+  
+        3.times do |j|
+          Point.find_or_create_by!(presentation: presentation, guide_name: "Change Name #{j + 1}")
+        end
+      end
+    end
+  
+    session[:guides_preview] = nil
+    session[:batch_id] = nil
+    session[:category_proj] = nil
+  
+    redirect_to batches_path, notice: "Guides imported successfully!"
+  end
+  
+  def cancel_guides
+    redirect_to batch_show_two_path(session[:batch_id]), notice: "Guide import canceled."
+    session[:guides_preview] = nil
+    session[:batch_id] = nil
+    session[:category_proj] = nil
+  
+  end
+  
+
+  def preview_students_in_html
+    @students = session[:students_preview]
+
+  end
+
+  def preview_students
+    if params[:file].nil?
+      redirect_to batch_path(params[:batch_id]), alert: "No file uploaded. Please upload a file and try again."
+      return
+    end
+
+    file_path = params[:file].path
+    xlsx = Roo::Spreadsheet.open(file_path)
+    sheet = xlsx.sheet(0)
+    
+    @students = []
+
+    # Skip header rows (assume headers are in the first 7 rows)
+    sheet.each_with_index do |row, index|
+      next if index < 6
+      
+      usn = row[1]&.to_s&.strip&.upcase
+      name = row[2]&.to_s&.strip&.upcase
+      c_no = row[3]&.to_s&.strip&.upcase
+      
+      @students << { usn: usn, name: name, c_no: c_no }
+    end
+
+    session[:students_preview] = @students
+    session[:batch_id] = params[:batch_id]
+    redirect_to preview_students_in_html_batches_path
+  end
+
+  def confirm_students
+    students = session[:students_preview]
+    batch_id = session[:batch_id]
+
+    if students.nil? || batch_id.nil?
+      redirect_to batches_path, alert: "No data to save. Please upload again."
+      return
+    end
+
+    students.each do |student_data|
+      student = Student.find_or_create_by!(usn: student_data[:usn]) do |student|
+        student.name = student_data[:name]
+        student.c_no = student_data[:c_no]
+        student.section = Guide.find(session[:guide_id]).section
+        student.batch_id = batch_id
+      end
+
+      student.update!(c_no: student_data[:c_no]) if student.c_no.blank?
+      student.update!(batch_id: batch_id) if student.batch_id.blank?
+    end
+
+    session[:students_preview] = nil
+    session[:batch_id] = nil
+
+    redirect_to batch_path(batch_id), notice: "Students imported successfully!"
+  end
+
+  def cancel_students
+    session[:students_preview] = nil
+    session[:batch_id] = nil
+
+    redirect_to batches_path, notice: "Student import canceled."
+  end
+
+
+
+
+
+
+
+  
+
   def change_teammate_post
     if params[:new_project_id].blank?
       return

@@ -37,12 +37,23 @@ Rails.application.routes.draw do
       post :edit
       post :update
       post :create_two
-      post :import_guides
       get :index_two
       get :assign_guides_manually
       post :assign_guides_manually_post
       get :change_teammate
       post :change_teammate_post
+      
+      # import students via excel
+      post :preview_students
+      get :preview_students_in_html
+      post :confirm_students
+      post :cancel_students
+      
+      # import guides via excel
+      post :preview_guides
+      get :preview_guides_in_html
+      post :confirm_guides
+      post :cancel_guides
 
 
     end
