@@ -45,7 +45,12 @@ class GuidesController < ApplicationController
   end
 
   def show
-    @guide = Guide.find_by(name: params[:guide_name])
+    if session[:guide_id].present?
+      redirect_to root_path
+    else
+      @guide = Guide.find_by(name: params[:guide_name])
+      
+    end
   end
 
 
